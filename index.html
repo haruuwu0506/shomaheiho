@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ルートちゃんの へいほうこんクイズ</title>
+<title>しょうまの へいほうこんぼうけん</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -48,7 +48,7 @@
     margin-bottom:6px;
   }
   .mascot-wrap{
-    width:110px; height:110px; margin:0 auto 6px;
+    width:100px; height:100px; margin:0 auto 4px;
     animation: bob 3.2s ease-in-out infinite;
   }
   @keyframes bob{
@@ -60,17 +60,39 @@
   .mascot-happy #mascot-cheeks{ opacity:1; }
 
   h1{
-    font-size:1.5rem;
+    font-size:1.35rem;
     margin:2px 0 2px;
     font-weight:900;
     letter-spacing:0.02em;
   }
   h1 .radical{ color:var(--orange); }
   .sub{
-    font-size:0.85rem;
+    font-size:0.82rem;
     color:#6b7290;
     margin:0;
   }
+
+  /* ---------- speech bubble ---------- */
+  .bubble{
+    background:var(--white);
+    border-radius:18px;
+    padding:14px 18px;
+    font-size:0.9rem;
+    line-height:1.7;
+    box-shadow: 0 4px 0 rgba(45,48,71,0.08);
+    position:relative;
+    margin: 8px 0 18px;
+  }
+  .bubble:before{
+    content:"";
+    position:absolute;
+    top:-9px; left:34px;
+    border-width:0 9px 9px 9px;
+    border-style:solid;
+    border-color:transparent transparent var(--white) transparent;
+  }
+  .bubble b{ color:var(--orange-dark); }
+  .bubble .name{ color:var(--teal-dark); font-weight:800; }
 
   /* ---------- generic screen ---------- */
   .screen{ display:none; flex:1; flex-direction:column; }
@@ -87,7 +109,7 @@
     padding:16px 18px;
     margin-bottom:16px;
     font-family:inherit;
-    font-size:1.05rem;
+    font-size:1.02rem;
     font-weight:800;
     color:var(--white);
     cursor:pointer;
@@ -97,9 +119,9 @@
     transition: transform .08s ease, box-shadow .08s ease;
   }
   .level-card:active{ transform: translateY(6px); box-shadow: 0 2px 0 rgba(45,48,71,0.15); }
-  .level-card .emoji{ font-size:2.2rem; line-height:1; filter:drop-shadow(0 2px 0 rgba(0,0,0,0.08)); }
+  .level-card .emoji{ font-size:2.1rem; line-height:1; filter:drop-shadow(0 2px 0 rgba(0,0,0,0.08)); }
   .level-card .txt{ display:flex; flex-direction:column; gap:2px; }
-  .level-card .txt small{ font-weight:600; font-size:0.75rem; opacity:0.9; }
+  .level-card .txt small{ font-weight:600; font-size:0.72rem; opacity:0.9; }
   .lv-easy{ background: linear-gradient(180deg, #34d6c4, var(--teal-dark)); }
   .lv-normal{ background: linear-gradient(180deg, #ffa361, var(--orange-dark)); }
   .lv-hard{ background: linear-gradient(180deg, #f56d92, var(--coral-dark)); }
@@ -109,7 +131,7 @@
     border-radius:18px;
     padding:16px 18px;
     margin-top:auto;
-    font-size:0.85rem;
+    font-size:0.82rem;
     line-height:1.7;
     box-shadow: 0 4px 0 rgba(45,48,71,0.08);
   }
@@ -118,7 +140,7 @@
   /* ---------- quiz screen ---------- */
   .progress-row{
     display:flex; justify-content:center; gap:6px;
-    margin: 6px 0 18px;
+    margin: 6px 0 14px;
     flex-wrap:wrap;
   }
   .dot{
@@ -137,46 +159,46 @@
     background:var(--white);
     border-radius:999px;
     padding:6px 16px;
-    font-size:0.8rem;
+    font-size:0.78rem;
     font-weight:800;
     color:var(--navy);
     box-shadow: 0 3px 0 rgba(45,48,71,0.08);
-    margin-bottom:10px;
+    margin-bottom:8px;
   }
 
   .question-card{
     background:var(--white);
     border-radius:28px;
-    padding:34px 20px 28px;
+    padding:30px 20px 24px;
     text-align:center;
     box-shadow: 0 10px 0 rgba(45,48,71,0.10);
     position:relative;
-    margin-bottom:20px;
+    margin-bottom:14px;
   }
   .question-card .level-tag{
     position:absolute; top:-14px; left:50%; transform:translateX(-50%);
-    padding:4px 16px; border-radius:999px; color:#fff; font-size:0.75rem; font-weight:800;
+    padding:4px 16px; border-radius:999px; color:#fff; font-size:0.72rem; font-weight:800;
     box-shadow: 0 3px 0 rgba(45,48,71,0.15);
   }
   .radical-expr{
-    font-size:3rem;
+    font-size:2.8rem;
     font-weight:900;
     color:var(--navy);
     display:flex;
     align-items:flex-end;
     justify-content:center;
     gap:4px;
-    margin-bottom:6px;
+    margin-bottom:4px;
   }
   .radical-expr .sqrt-symbol{ color:var(--orange); position:relative; top:2px; }
   .radical-expr .under-line{ border-top:5px solid var(--navy); padding:0 6px 2px; }
   .hint-text{
-    font-size:0.8rem; color:#8a90ab; margin:0 0 20px;
+    font-size:0.78rem; color:#8a90ab; margin:0 0 16px;
   }
 
   .answer-row{
     display:flex; align-items:center; justify-content:center; gap:10px;
-    margin-bottom:8px;
+    margin-bottom:6px;
   }
   #answerInput{
     width:120px;
@@ -196,13 +218,29 @@
   #answerInput.wrong{ border-color:var(--coral); background:#fff0f4; }
 
   .feedback{
-    min-height:1.4em;
+    min-height:1.2em;
     font-weight:800;
-    font-size:0.95rem;
-    margin-top:6px;
+    font-size:0.92rem;
+    margin-top:4px;
   }
   .feedback.correct{ color:var(--teal-dark); }
   .feedback.wrong{ color:var(--coral-dark); }
+
+  .explain-box{
+    display:none;
+    text-align:left;
+    background:#fff6ea;
+    border:2px dashed var(--yellow);
+    border-radius:16px;
+    padding:12px 16px;
+    margin-top:14px;
+    font-size:0.85rem;
+    line-height:1.75;
+  }
+  .explain-box.show{ display:block; }
+  .explain-box .ttl{ font-weight:800; color:var(--orange-dark); margin-bottom:4px; }
+  .explain-box .step{ margin:2px 0; }
+  .explain-box .num{ font-weight:800; color:var(--coral-dark); }
 
   .btn{
     display:block;
@@ -211,7 +249,7 @@
     border-radius:18px;
     padding:15px;
     font-family:inherit;
-    font-size:1.05rem;
+    font-size:1.02rem;
     font-weight:800;
     color:#fff;
     cursor:pointer;
@@ -232,21 +270,21 @@
   .result-card{
     background:var(--white);
     border-radius:28px;
-    padding:34px 22px;
+    padding:30px 22px;
     text-align:center;
     box-shadow: 0 10px 0 rgba(45,48,71,0.10);
-    margin-bottom:20px;
+    margin-bottom:16px;
   }
-  .result-emoji{ font-size:3.6rem; margin-bottom:6px; }
+  .result-emoji{ font-size:3.4rem; margin-bottom:4px; }
   .result-score{
-    font-size:2.6rem; font-weight:900; margin:4px 0 2px;
+    font-size:2.4rem; font-weight:900; margin:4px 0 2px;
   }
-  .result-score span{ font-size:1.2rem; color:#8a90ab; font-weight:800; }
-  .result-msg{ font-size:0.95rem; color:#6b7290; margin-bottom:18px; }
-  .result-stars{ font-size:1.6rem; letter-spacing:6px; margin-bottom:10px; }
+  .result-score span{ font-size:1.1rem; color:#8a90ab; font-weight:800; }
+  .result-msg{ font-size:0.92rem; color:#6b7290; margin-bottom:14px; line-height:1.7; }
+  .result-stars{ font-size:1.5rem; letter-spacing:6px; margin-bottom:8px; }
 
   footer.note{
-    text-align:center; font-size:0.7rem; color:#a2a7bd; margin-top:18px;
+    text-align:center; font-size:0.68rem; color:#a2a7bd; margin-top:16px;
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -260,7 +298,7 @@
 
   <header>
     <div class="mascot-wrap">
-      <svg viewBox="0 0 120 120" width="110" height="110" id="mascotSvg">
+      <svg viewBox="0 0 120 120" width="100" height="100" id="mascotSvg">
         <circle cx="60" cy="60" r="52" fill="#ffd23f"/>
         <circle cx="60" cy="60" r="52" fill="none" stroke="#2d3047" stroke-width="4"/>
         <g id="mascot-cheeks">
@@ -272,35 +310,48 @@
         <path id="mascot-mouth" d="M 42 76 Q 60 88 78 76" stroke="#2d3047" stroke-width="5" fill="none" stroke-linecap="round"/>
       </svg>
     </div>
-    <h1><span class="radical">√</span> <ruby>平方根<rt>へいほうこん</rt></ruby>クイズ</h1>
-    <p class="sub">□ × □ = すうじ の □ を みつけよう！</p>
+    <h1><span class="radical">√</span> しょうまの <ruby>平方根<rt>へいほうこん</rt></ruby>ぼうけん</h1>
+    <p class="sub">かず の もり を すすんで、ルートはかせ と いっしょに ゴールを めざそう</p>
   </header>
 
   <!-- ================= レベルせんたく画面 ================= -->
   <section class="screen active" id="screen-select">
+    <div class="bubble" id="introBubble">
+      <span class="name">ルートはかせ：</span><br>
+      やあ、<b>しょうま</b>！ また あそびに きてくれたね。<br>
+      きょうの「√（ルート）」の もんだい は <b>まいかい ランダム</b> だよ。<br>
+      おなじ もんだい が でにくい から、こたえ を まるあんき せずに、<br>
+      ちゃんと けいさん して とく れんしゅう を しよう！
+    </div>
+
     <button class="level-card lv-easy" data-level="easy">
       <span class="emoji">🐣</span>
-      <span class="txt">やさしい<small>1〜15 の すうじ・ぜんぶで10もん</small></span>
+      <span class="txt">第1章・やさしい森<small>1〜15 の中から ランダムに10もん</small></span>
     </button>
     <button class="level-card lv-normal" data-level="normal">
       <span class="emoji">🐰</span>
-      <span class="txt">ふつう<small>16〜30 の すうじ・ぜんぶで10もん</small></span>
+      <span class="txt">第2章・ふつう山<small>16〜30 の中から ランダムに10もん</small></span>
     </button>
     <button class="level-card lv-hard" data-level="hard">
       <span class="emoji">🦁</span>
-      <span class="txt">むずかしい<small>31〜50 の すうじ・ぜんぶで10もん</small></span>
+      <span class="txt">第3章・むずかしい城<small>31〜50 の中から ランダムに10もん</small></span>
     </button>
 
     <div class="howto">
       <b>あそびかた</b><br>
       「√（ルート）」の した に かいてある すうじ に なるように、<br>
       おなじ すうじ を 2かい かけざん した とき の こたえ を いれてね。<br>
-      れい：√9 → 3×3=9 だから こたえは <b>3</b>
+      れい：√9 → 3×3=9 だから こたえは <b>3</b><br>
+      もんだいは <b>まいかい ランダム</b> に えらばれる から、じゅんばん を おぼえても いみが ないよ。しっかり けいさん しよう！
     </div>
   </section>
 
   <!-- ================= クイズ画面 ================= -->
   <section class="screen" id="screen-quiz">
+    <div class="bubble" id="quizBubble">
+      <span class="name">ルートはかせ：</span> <span id="quizBubbleText">しょうま、さいしょの もんだい だよ！</span>
+    </div>
+
     <div class="score-pill" id="scorePill">せいかい 0 もん</div>
     <div class="progress-row" id="progressRow"></div>
 
@@ -316,6 +367,13 @@
         <input type="number" id="answerInput" inputmode="numeric" placeholder="?" autocomplete="off">
       </div>
       <p class="feedback" id="feedback"></p>
+
+      <div class="explain-box" id="explainBox">
+        <div class="ttl">🦉 ルートはかせの かいせつ</div>
+        <div class="step" id="explainStep1"></div>
+        <div class="step" id="explainStep2"></div>
+        <div class="step" id="explainStep3"></div>
+      </div>
     </div>
 
     <button class="btn btn-primary" id="checkBtn">こたえあわせ</button>
@@ -330,21 +388,23 @@
       <div class="result-score"><span id="resultScore">0</span><span> / 10 もん せいかい</span></div>
       <p class="result-msg" id="resultMsg"></p>
     </div>
-    <button class="btn btn-primary" id="retryBtn">おなじ レベルで もういちど</button>
-    <button class="btn btn-secondary" id="toSelectBtn">レベルをえらびなおす</button>
+    <button class="btn btn-primary" id="retryBtn">おなじ 章 で もういちど</button>
+    <button class="btn btn-secondary" id="toSelectBtn">章 をえらびなおす</button>
   </section>
 
-  <footer class="note">ぜんぶで 10もん・もんだいは いつも ランダム だよ</footer>
+  <footer class="note">もんだいは あそぶたびに ランダム。おなじ もんだい は でにくいよ</footer>
 </div>
 
 <script>
 (function(){
   "use strict";
 
+  var PLAYER_NAME = "しょうま";
+
   var LEVELS = {
-    easy:   { label:"やさしい", color:"#209e93", min:1,  max:15, emoji:"🐣" },
-    normal: { label:"ふつう",   color:"#e8722a", min:16, max:30, emoji:"🐰" },
-    hard:   { label:"むずかしい", color:"#d6335b", min:31, max:50, emoji:"🦁" }
+    easy:   { label:"第1章・やさしい森",   color:"#209e93", min:1,  max:15, emoji:"🐣" },
+    normal: { label:"第2章・ふつう山",     color:"#e8722a", min:16, max:30, emoji:"🐰" },
+    hard:   { label:"第3章・むずかしい城", color:"#d6335b", min:31, max:50, emoji:"🦁" }
   };
   var QUESTION_COUNT = 10;
 
@@ -356,6 +416,7 @@
     results: [] // 'correct' | 'wrong' | null per question
   };
 
+  // ---------- まいかい ランダム に もんだいを つくる（じゅんばん・きまり を おぼえられない ように） ----------
   function shuffledRange(min, max){
     var arr = [];
     for (var i = min; i <= max; i++) arr.push(i);
@@ -408,14 +469,22 @@
     });
   });
 
+  var quizBubbleText = document.getElementById('quizBubbleText');
+  var START_LINES = {
+    easy:   PLAYER_NAME + "、ここは かずの もり だよ。もんだい は ランダム、ゆだんせず いこう！",
+    normal: PLAYER_NAME + "、つぎは すこし たかい やま だ。かずが おおきく なるよ、いこう！",
+    hard:   PLAYER_NAME + "、いよいよ じょう の なかだ。おちついて けいさん して いこう！"
+  };
+
   function startLevel(levelKey){
     state.level = levelKey;
     state.problems = buildProblems(levelKey);
     state.index = 0;
     state.correctCount = 0;
-    state.results = new Array(QUESTION_COUNT).fill(null);
+    state.results = new Array(state.problems.length).fill(null);
     buildProgressDots();
     setMascot('neutral');
+    quizBubbleText.textContent = START_LINES[levelKey];
     showScreen('quiz');
     renderQuestion();
   }
@@ -424,7 +493,7 @@
   var progressRow = document.getElementById('progressRow');
   function buildProgressDots(){
     progressRow.innerHTML = '';
-    for (var i = 0; i < QUESTION_COUNT; i++){
+    for (var i = 0; i < state.problems.length; i++){
       var d = document.createElement('div');
       d.className = 'dot';
       d.textContent = (i + 1);
@@ -450,6 +519,17 @@
   var feedbackEl = document.getElementById('feedback');
   var checkBtn = document.getElementById('checkBtn');
   var scorePill = document.getElementById('scorePill');
+  var explainBox = document.getElementById('explainBox');
+  var explainStep1 = document.getElementById('explainStep1');
+  var explainStep2 = document.getElementById('explainStep2');
+  var explainStep3 = document.getElementById('explainStep3');
+
+  var ENCOURAGE_LINES = [
+    PLAYER_NAME + "、つぎの もんだい だよ！",
+    "いいちょうし だ、" + PLAYER_NAME + "！ つぎ いってみよう。",
+    PLAYER_NAME + "なら、この もんだい も とけるはず！",
+    "その ちょうし！ つぎの すうじ は……？"
+  ];
 
   function renderQuestion(){
     var lvl = LEVELS[state.level];
@@ -464,9 +544,14 @@
     answerInput.disabled = false;
     feedbackEl.textContent = '';
     feedbackEl.className = 'feedback';
+    explainBox.classList.remove('show');
     checkBtn.textContent = 'こたえあわせ';
     checkBtn.disabled = false;
     setMascot('neutral');
+
+    if (state.index > 0){
+      quizBubbleText.textContent = ENCOURAGE_LINES[state.index % ENCOURAGE_LINES.length];
+    }
 
     scorePill.textContent = 'せいかい ' + state.correctCount + ' もん';
     updateProgressDots();
@@ -476,6 +561,18 @@
 
   var awaitingNext = false;
 
+  function showExplanation(problem){
+    var base = problem.base;
+    var square = problem.square;
+    var lower = base - 1;
+    var upper = base + 1;
+
+    explainStep1.innerHTML = PLAYER_NAME + '、いっしょに かくにん しよう。<span class="num">' + base + '</span> × <span class="num">' + base + '</span> = <span class="num">' + square + '</span> だね。';
+    explainStep2.innerHTML = 'はさみうち で かんがえると：<span class="num">' + lower + '</span>×' + lower + '=' + (lower*lower) + ' 、<span class="num">' + upper + '</span>×' + upper + '=' + (upper*upper) + '。<br>' + square + ' は ちょうど その あいだ だから、こたえ は <span class="num">' + base + '</span> に なるよ。';
+    explainStep3.textContent = '一の位（いちのくらい）の かずにも ちゅうもく！ ' + base + ' の 一の位 は ' + (base % 10) + '、二乗すると 一の位が ' + (square % 10) + ' に なる きまり も おぼえて おくと べんりだよ。';
+    explainBox.classList.add('show');
+  }
+
   function checkAnswer(){
     if (awaitingNext){
       goNext();
@@ -484,7 +581,7 @@
     var problem = state.problems[state.index];
     var raw = answerInput.value.trim();
     if (raw === '') {
-      feedbackEl.textContent = 'すうじ を いれてね';
+      feedbackEl.textContent = PLAYER_NAME + '、すうじ を いれてね';
       feedbackEl.className = 'feedback wrong';
       return;
     }
@@ -496,23 +593,30 @@
 
     answerInput.disabled = true;
     answerInput.classList.add(isCorrect ? 'correct' : 'wrong');
-    feedbackEl.textContent = isCorrect
-      ? 'せいかい！ ' + problem.base + ' × ' + problem.base + ' = ' + problem.square + ' 🎉'
-      : 'おしい！ こたえは ' + problem.base + ' だよ（' + problem.base + '×' + problem.base + '=' + problem.square + '）';
-    feedbackEl.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+
+    if (isCorrect){
+      feedbackEl.textContent = 'せいかい！ ' + problem.base + ' × ' + problem.base + ' = ' + problem.square + ' 🎉';
+      feedbackEl.className = 'feedback correct';
+      quizBubbleText.textContent = 'やったね、' + PLAYER_NAME + '！ さすが だ！';
+    } else {
+      feedbackEl.textContent = 'おしい！ せいかいは ' + problem.base + ' だよ。';
+      feedbackEl.className = 'feedback wrong';
+      quizBubbleText.textContent = PLAYER_NAME + '、だいじょうぶ。いっしょに かいせつ を みてみよう。';
+      showExplanation(problem);
+    }
 
     setMascot(isCorrect ? 'happy' : 'sad');
     scorePill.textContent = 'せいかい ' + state.correctCount + ' もん';
     updateProgressDots();
 
-    var isLast = (state.index === QUESTION_COUNT - 1);
-    checkBtn.textContent = isLast ? 'けっかをみる' : 'つぎのもんだいへ';
+    var isLast = (state.index === state.problems.length - 1);
+    checkBtn.textContent = isLast ? 'けっかをみる' : 'つぎの もんだいへ';
     awaitingNext = true;
   }
 
   function goNext(){
     awaitingNext = false;
-    if (state.index === QUESTION_COUNT - 1){
+    if (state.index === state.problems.length - 1){
       showResult();
     } else {
       state.index++;
@@ -540,22 +644,22 @@
 
   function showResult(){
     resultScoreEl.textContent = state.correctCount;
-    var pct = state.correctCount / QUESTION_COUNT;
+    var pct = state.correctCount / state.problems.length;
     var stars = Math.max(1, Math.round(pct * 5));
-    resultStarsEl.textContent = '⭐'.repeat(stars) + '︎'.repeat(0);
+    resultStarsEl.textContent = '⭐'.repeat(stars);
 
     if (pct === 1){
       resultEmojiEl.textContent = '🏆';
-      resultMsgEl.textContent = 'ぜんもん せいかい！ すごい！つぎは もっと むずかしい レベルにも ちょうせんしてみよう！';
+      resultMsgEl.textContent = PLAYER_NAME + '、ぜんもん せいかい だ！ ルートはかせ も びっくり だよ。つぎの 章 に すすもう！';
     } else if (pct >= 0.7){
       resultEmojiEl.textContent = '🎉';
-      resultMsgEl.textContent = 'よくできました！ この ちょうし で がんばろう！';
+      resultMsgEl.textContent = 'よくがんばったね、' + PLAYER_NAME + '！ かいせつ を みなおして、もういちど チャレンジ してみよう。';
     } else if (pct >= 0.4){
       resultEmojiEl.textContent = '🙂';
-      resultMsgEl.textContent = 'もうすこし！ もういちど チャレンジ してみよう！';
+      resultMsgEl.textContent = PLAYER_NAME + '、もうすこし！ かいせつ を よく よんで、もう一度 やってみよう。';
     } else {
       resultEmojiEl.textContent = '💪';
-      resultMsgEl.textContent = 'だいじょうぶ！ なんかいも れんしゅう すれば きっと できるよ！';
+      resultMsgEl.textContent = 'だいじょうぶ、' + PLAYER_NAME + '！ ルートはかせ が いつでも いっしょ だよ。もういちど チャレンジ しよう！';
     }
     showScreen('result');
   }
