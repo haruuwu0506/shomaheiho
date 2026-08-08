@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ルートちゃんの へいほうこんクイズ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg1:#eaf6ff;
+    --bg2:#fff7e0;
+    --navy:#2d3047;
+    --orange:#ff8c42;
+    --orange-dark:#e8722a;
+    --teal:#2ec4b6;
+    --teal-dark:#209e93;
+    --coral:#ef476f;
+    --coral-dark:#d6335b;
+    --yellow:#ffd23f;
+    --green:#06d6a0;
+    --white:#ffffff;
+    --shadow: 0 8px 0 rgba(45,48,71,0.15);
+  }
+  *{ box-sizing:border-box; }
+  html,body{
+    margin:0; padding:0; min-height:100vh;
+    font-family:'M PLUS Rounded 1c', sans-serif;
+    background: radial-gradient(circle at 15% 10%, var(--bg2) 0%, var(--bg1) 55%);
+    color:var(--navy);
+    overflow-x:hidden;
+  }
+  ruby rt{ font-size:0.55em; color:#6b7290; user-select:none; }
+
+  .stage{
+    max-width:520px;
+    margin:0 auto;
+    padding:20px 16px 60px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* ---------- header / mascot ---------- */
+  header{
+    text-align:center;
+    padding-top:8px;
+    margin-bottom:6px;
+  }
+  .mascot-wrap{
+    width:110px; height:110px; margin:0 auto 6px;
+    animation: bob 3.2s ease-in-out infinite;
+  }
+  @keyframes bob{
+    0%,100%{ transform: translateY(0) rotate(-2deg); }
+    50%{ transform: translateY(-8px) rotate(2deg); }
+  }
+  #mascot-mouth{ transition: d 0.15s ease; }
+  #mascot-cheeks{ opacity:0; transition: opacity 0.2s ease; }
+  .mascot-happy #mascot-cheeks{ opacity:1; }
+
+  h1{
+    font-size:1.5rem;
+    margin:2px 0 2px;
+    font-weight:900;
+    letter-spacing:0.02em;
+  }
+  h1 .radical{ color:var(--orange); }
+  .sub{
+    font-size:0.85rem;
+    color:#6b7290;
+    margin:0;
+  }
+
+  /* ---------- generic screen ---------- */
+  .screen{ display:none; flex:1; flex-direction:column; }
+  .screen.active{ display:flex; }
+
+  /* ---------- level select ---------- */
+  .level-card{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    width:100%;
+    border:none;
+    border-radius:22px;
+    padding:16px 18px;
+    margin-bottom:16px;
+    font-family:inherit;
+    font-size:1.05rem;
+    font-weight:800;
+    color:var(--white);
+    cursor:pointer;
+    text-align:left;
+    box-shadow: var(--shadow);
+    transform: translateY(0);
+    transition: transform .08s ease, box-shadow .08s ease;
+  }
+  .level-card:active{ transform: translateY(6px); box-shadow: 0 2px 0 rgba(45,48,71,0.15); }
+  .level-card .emoji{ font-size:2.2rem; line-height:1; filter:drop-shadow(0 2px 0 rgba(0,0,0,0.08)); }
+  .level-card .txt{ display:flex; flex-direction:column; gap:2px; }
+  .level-card .txt small{ font-weight:600; font-size:0.75rem; opacity:0.9; }
+  .lv-easy{ background: linear-gradient(180deg, #34d6c4, var(--teal-dark)); }
+  .lv-normal{ background: linear-gradient(180deg, #ffa361, var(--orange-dark)); }
+  .lv-hard{ background: linear-gradient(180deg, #f56d92, var(--coral-dark)); }
+
+  .howto{
+    background:var(--white);
+    border-radius:18px;
+    padding:16px 18px;
+    margin-top:auto;
+    font-size:0.85rem;
+    line-height:1.7;
+    box-shadow: 0 4px 0 rgba(45,48,71,0.08);
+  }
+  .howto b{ color:var(--orange-dark); }
+
+  /* ---------- quiz screen ---------- */
+  .progress-row{
+    display:flex; justify-content:center; gap:6px;
+    margin: 6px 0 18px;
+    flex-wrap:wrap;
+  }
+  .dot{
+    width:20px; height:20px; border-radius:50%;
+    background:#dfe3f0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.6rem; font-weight:800; color:#fff;
+    transition: background .2s ease, transform .2s ease;
+  }
+  .dot.current{ transform:scale(1.25); box-shadow:0 0 0 3px rgba(255,140,66,0.25); }
+  .dot.correct{ background:var(--green); }
+  .dot.wrong{ background:var(--coral); }
+
+  .score-pill{
+    align-self:center;
+    background:var(--white);
+    border-radius:999px;
+    padding:6px 16px;
+    font-size:0.8rem;
+    font-weight:800;
+    color:var(--navy);
+    box-shadow: 0 3px 0 rgba(45,48,71,0.08);
+    margin-bottom:10px;
+  }
+
+  .question-card{
+    background:var(--white);
+    border-radius:28px;
+    padding:34px 20px 28px;
+    text-align:center;
+    box-shadow: 0 10px 0 rgba(45,48,71,0.10);
+    position:relative;
+    margin-bottom:20px;
+  }
+  .question-card .level-tag{
+    position:absolute; top:-14px; left:50%; transform:translateX(-50%);
+    padding:4px 16px; border-radius:999px; color:#fff; font-size:0.75rem; font-weight:800;
+    box-shadow: 0 3px 0 rgba(45,48,71,0.15);
+  }
+  .radical-expr{
+    font-size:3rem;
+    font-weight:900;
+    color:var(--navy);
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    gap:4px;
+    margin-bottom:6px;
+  }
+  .radical-expr .sqrt-symbol{ color:var(--orange); position:relative; top:2px; }
+  .radical-expr .under-line{ border-top:5px solid var(--navy); padding:0 6px 2px; }
+  .hint-text{
+    font-size:0.8rem; color:#8a90ab; margin:0 0 20px;
+  }
+
+  .answer-row{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    margin-bottom:8px;
+  }
+  #answerInput{
+    width:120px;
+    font-size:1.8rem;
+    font-weight:800;
+    text-align:center;
+    padding:10px 6px;
+    border-radius:16px;
+    border:3px solid #dfe3f0;
+    font-family:inherit;
+    color:var(--navy);
+    outline:none;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  #answerInput:focus{ border-color:var(--orange); }
+  #answerInput.correct{ border-color:var(--green); background:#eafff7; }
+  #answerInput.wrong{ border-color:var(--coral); background:#fff0f4; }
+
+  .feedback{
+    min-height:1.4em;
+    font-weight:800;
+    font-size:0.95rem;
+    margin-top:6px;
+  }
+  .feedback.correct{ color:var(--teal-dark); }
+  .feedback.wrong{ color:var(--coral-dark); }
+
+  .btn{
+    display:block;
+    width:100%;
+    border:none;
+    border-radius:18px;
+    padding:15px;
+    font-family:inherit;
+    font-size:1.05rem;
+    font-weight:800;
+    color:#fff;
+    cursor:pointer;
+    box-shadow: var(--shadow);
+    transition: transform .08s ease, box-shadow .08s ease, opacity .2s;
+  }
+  .btn:active{ transform: translateY(6px); box-shadow: 0 2px 0 rgba(45,48,71,0.15); }
+  .btn:disabled{ opacity:0.45; cursor:not-allowed; }
+  .btn-primary{ background: linear-gradient(180deg, #ffa361, var(--orange-dark)); }
+  .btn-secondary{
+    background:var(--white); color:var(--navy);
+    box-shadow: 0 5px 0 rgba(45,48,71,0.08);
+    margin-top:10px;
+  }
+  .btn-secondary:active{ box-shadow: 0 1px 0 rgba(45,48,71,0.08); }
+
+  /* ---------- result screen ---------- */
+  .result-card{
+    background:var(--white);
+    border-radius:28px;
+    padding:34px 22px;
+    text-align:center;
+    box-shadow: 0 10px 0 rgba(45,48,71,0.10);
+    margin-bottom:20px;
+  }
+  .result-emoji{ font-size:3.6rem; margin-bottom:6px; }
+  .result-score{
+    font-size:2.6rem; font-weight:900; margin:4px 0 2px;
+  }
+  .result-score span{ font-size:1.2rem; color:#8a90ab; font-weight:800; }
+  .result-msg{ font-size:0.95rem; color:#6b7290; margin-bottom:18px; }
+  .result-stars{ font-size:1.6rem; letter-spacing:6px; margin-bottom:10px; }
+
+  footer.note{
+    text-align:center; font-size:0.7rem; color:#a2a7bd; margin-top:18px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .mascot-wrap{ animation:none; }
+    *{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <header>
+    <div class="mascot-wrap">
+      <svg viewBox="0 0 120 120" width="110" height="110" id="mascotSvg">
+        <circle cx="60" cy="60" r="52" fill="#ffd23f"/>
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#2d3047" stroke-width="4"/>
+        <g id="mascot-cheeks">
+          <ellipse cx="30" cy="70" rx="9" ry="6" fill="#ff8c42" opacity="0.6"/>
+          <ellipse cx="90" cy="70" rx="9" ry="6" fill="#ff8c42" opacity="0.6"/>
+        </g>
+        <circle cx="42" cy="52" r="6" fill="#2d3047"/>
+        <circle cx="78" cy="52" r="6" fill="#2d3047"/>
+        <path id="mascot-mouth" d="M 42 76 Q 60 88 78 76" stroke="#2d3047" stroke-width="5" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h1><span class="radical">√</span> <ruby>平方根<rt>へいほうこん</rt></ruby>クイズ</h1>
+    <p class="sub">□ × □ = すうじ の □ を みつけよう！</p>
+  </header>
+
+  <!-- ================= レベルせんたく画面 ================= -->
+  <section class="screen active" id="screen-select">
+    <button class="level-card lv-easy" data-level="easy">
+      <span class="emoji">🐣</span>
+      <span class="txt">やさしい<small>1〜15 の すうじ・ぜんぶで10もん</small></span>
+    </button>
+    <button class="level-card lv-normal" data-level="normal">
+      <span class="emoji">🐰</span>
+      <span class="txt">ふつう<small>16〜30 の すうじ・ぜんぶで10もん</small></span>
+    </button>
+    <button class="level-card lv-hard" data-level="hard">
+      <span class="emoji">🦁</span>
+      <span class="txt">むずかしい<small>31〜50 の すうじ・ぜんぶで10もん</small></span>
+    </button>
+
+    <div class="howto">
+      <b>あそびかた</b><br>
+      「√（ルート）」の した に かいてある すうじ に なるように、<br>
+      おなじ すうじ を 2かい かけざん した とき の こたえ を いれてね。<br>
+      れい：√9 → 3×3=9 だから こたえは <b>3</b>
+    </div>
+  </section>
+
+  <!-- ================= クイズ画面 ================= -->
+  <section class="screen" id="screen-quiz">
+    <div class="score-pill" id="scorePill">せいかい 0 もん</div>
+    <div class="progress-row" id="progressRow"></div>
+
+    <div class="question-card">
+      <span class="level-tag" id="quizLevelTag"></span>
+      <div class="radical-expr">
+        <span class="sqrt-symbol">√</span>
+        <span class="under-line" id="questionNumber">0</span>
+      </div>
+      <p class="hint-text">□ × □ に なる かず は？</p>
+
+      <div class="answer-row">
+        <input type="number" id="answerInput" inputmode="numeric" placeholder="?" autocomplete="off">
+      </div>
+      <p class="feedback" id="feedback"></p>
+    </div>
+
+    <button class="btn btn-primary" id="checkBtn">こたえあわせ</button>
+    <button class="btn btn-secondary" id="backBtn">← レベルをえらびなおす</button>
+  </section>
+
+  <!-- ================= けっか画面 ================= -->
+  <section class="screen" id="screen-result">
+    <div class="result-card">
+      <div class="result-emoji" id="resultEmoji">🎉</div>
+      <div class="result-stars" id="resultStars"></div>
+      <div class="result-score"><span id="resultScore">0</span><span> / 10 もん せいかい</span></div>
+      <p class="result-msg" id="resultMsg"></p>
+    </div>
+    <button class="btn btn-primary" id="retryBtn">おなじ レベルで もういちど</button>
+    <button class="btn btn-secondary" id="toSelectBtn">レベルをえらびなおす</button>
+  </section>
+
+  <footer class="note">ぜんぶで 10もん・もんだいは いつも ランダム だよ</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var LEVELS = {
+    easy:   { label:"やさしい", color:"#209e93", min:1,  max:15, emoji:"🐣" },
+    normal: { label:"ふつう",   color:"#e8722a", min:16, max:30, emoji:"🐰" },
+    hard:   { label:"むずかしい", color:"#d6335b", min:31, max:50, emoji:"🦁" }
+  };
+  var QUESTION_COUNT = 10;
+
+  var state = {
+    level: null,
+    problems: [],
+    index: 0,
+    correctCount: 0,
+    results: [] // 'correct' | 'wrong' | null per question
+  };
+
+  function shuffledRange(min, max){
+    var arr = [];
+    for (var i = min; i <= max; i++) arr.push(i);
+    for (var j = arr.length - 1; j > 0; j--){
+      var k = Math.floor(Math.random() * (j + 1));
+      var tmp = arr[j]; arr[j] = arr[k]; arr[k] = tmp;
+    }
+    return arr;
+  }
+
+  function buildProblems(levelKey){
+    var lvl = LEVELS[levelKey];
+    var bases = shuffledRange(lvl.min, lvl.max).slice(0, QUESTION_COUNT);
+    return bases.map(function(base){
+      return { base: base, square: base * base };
+    });
+  }
+
+  // ---------- screens ----------
+  var screens = {
+    select: document.getElementById('screen-select'),
+    quiz: document.getElementById('screen-quiz'),
+    result: document.getElementById('screen-result')
+  };
+  function showScreen(name){
+    Object.keys(screens).forEach(function(k){
+      screens[k].classList.toggle('active', k === name);
+    });
+  }
+
+  // ---------- mascot ----------
+  var mascotSvg = document.getElementById('mascotSvg');
+  var mouth = document.getElementById('mascot-mouth');
+  function setMascot(mood){
+    mascotSvg.classList.remove('mascot-happy');
+    if (mood === 'happy'){
+      mouth.setAttribute('d', 'M 40 74 Q 60 96 80 74');
+      mascotSvg.classList.add('mascot-happy');
+    } else if (mood === 'sad'){
+      mouth.setAttribute('d', 'M 42 84 Q 60 70 78 84');
+    } else {
+      mouth.setAttribute('d', 'M 42 76 Q 60 88 78 76');
+    }
+  }
+
+  // ---------- level select ----------
+  document.querySelectorAll('.level-card').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      startLevel(btn.getAttribute('data-level'));
+    });
+  });
+
+  function startLevel(levelKey){
+    state.level = levelKey;
+    state.problems = buildProblems(levelKey);
+    state.index = 0;
+    state.correctCount = 0;
+    state.results = new Array(QUESTION_COUNT).fill(null);
+    buildProgressDots();
+    setMascot('neutral');
+    showScreen('quiz');
+    renderQuestion();
+  }
+
+  // ---------- progress dots ----------
+  var progressRow = document.getElementById('progressRow');
+  function buildProgressDots(){
+    progressRow.innerHTML = '';
+    for (var i = 0; i < QUESTION_COUNT; i++){
+      var d = document.createElement('div');
+      d.className = 'dot';
+      d.textContent = (i + 1);
+      progressRow.appendChild(d);
+    }
+    updateProgressDots();
+  }
+  function updateProgressDots(){
+    var dots = progressRow.children;
+    for (var i = 0; i < dots.length; i++){
+      dots[i].classList.remove('current', 'correct', 'wrong');
+      var res = state.results[i];
+      if (res === 'correct') dots[i].classList.add('correct');
+      else if (res === 'wrong') dots[i].classList.add('wrong');
+      if (i === state.index) dots[i].classList.add('current');
+    }
+  }
+
+  // ---------- quiz rendering ----------
+  var quizLevelTag = document.getElementById('quizLevelTag');
+  var questionNumberEl = document.getElementById('questionNumber');
+  var answerInput = document.getElementById('answerInput');
+  var feedbackEl = document.getElementById('feedback');
+  var checkBtn = document.getElementById('checkBtn');
+  var scorePill = document.getElementById('scorePill');
+
+  function renderQuestion(){
+    var lvl = LEVELS[state.level];
+    quizLevelTag.textContent = lvl.emoji + ' ' + lvl.label;
+    quizLevelTag.style.background = lvl.color;
+
+    var problem = state.problems[state.index];
+    questionNumberEl.textContent = problem.square;
+
+    answerInput.value = '';
+    answerInput.classList.remove('correct', 'wrong');
+    answerInput.disabled = false;
+    feedbackEl.textContent = '';
+    feedbackEl.className = 'feedback';
+    checkBtn.textContent = 'こたえあわせ';
+    checkBtn.disabled = false;
+    setMascot('neutral');
+
+    scorePill.textContent = 'せいかい ' + state.correctCount + ' もん';
+    updateProgressDots();
+
+    setTimeout(function(){ answerInput.focus(); }, 50);
+  }
+
+  var awaitingNext = false;
+
+  function checkAnswer(){
+    if (awaitingNext){
+      goNext();
+      return;
+    }
+    var problem = state.problems[state.index];
+    var raw = answerInput.value.trim();
+    if (raw === '') {
+      feedbackEl.textContent = 'すうじ を いれてね';
+      feedbackEl.className = 'feedback wrong';
+      return;
+    }
+    var val = Number(raw);
+    var isCorrect = (val === problem.base);
+
+    state.results[state.index] = isCorrect ? 'correct' : 'wrong';
+    if (isCorrect) state.correctCount++;
+
+    answerInput.disabled = true;
+    answerInput.classList.add(isCorrect ? 'correct' : 'wrong');
+    feedbackEl.textContent = isCorrect
+      ? 'せいかい！ ' + problem.base + ' × ' + problem.base + ' = ' + problem.square + ' 🎉'
+      : 'おしい！ こたえは ' + problem.base + ' だよ（' + problem.base + '×' + problem.base + '=' + problem.square + '）';
+    feedbackEl.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+
+    setMascot(isCorrect ? 'happy' : 'sad');
+    scorePill.textContent = 'せいかい ' + state.correctCount + ' もん';
+    updateProgressDots();
+
+    var isLast = (state.index === QUESTION_COUNT - 1);
+    checkBtn.textContent = isLast ? 'けっかをみる' : 'つぎのもんだいへ';
+    awaitingNext = true;
+  }
+
+  function goNext(){
+    awaitingNext = false;
+    if (state.index === QUESTION_COUNT - 1){
+      showResult();
+    } else {
+      state.index++;
+      renderQuestion();
+    }
+  }
+
+  checkBtn.addEventListener('click', checkAnswer);
+  answerInput.addEventListener('keydown', function(e){
+    if (e.key === 'Enter'){
+      e.preventDefault();
+      checkAnswer();
+    }
+  });
+
+  document.getElementById('backBtn').addEventListener('click', function(){
+    showScreen('select');
+  });
+
+  // ---------- result ----------
+  var resultScoreEl = document.getElementById('resultScore');
+  var resultMsgEl = document.getElementById('resultMsg');
+  var resultEmojiEl = document.getElementById('resultEmoji');
+  var resultStarsEl = document.getElementById('resultStars');
+
+  function showResult(){
+    resultScoreEl.textContent = state.correctCount;
+    var pct = state.correctCount / QUESTION_COUNT;
+    var stars = Math.max(1, Math.round(pct * 5));
+    resultStarsEl.textContent = '⭐'.repeat(stars) + '︎'.repeat(0);
+
+    if (pct === 1){
+      resultEmojiEl.textContent = '🏆';
+      resultMsgEl.textContent = 'ぜんもん せいかい！ すごい！つぎは もっと むずかしい レベルにも ちょうせんしてみよう！';
+    } else if (pct >= 0.7){
+      resultEmojiEl.textContent = '🎉';
+      resultMsgEl.textContent = 'よくできました！ この ちょうし で がんばろう！';
+    } else if (pct >= 0.4){
+      resultEmojiEl.textContent = '🙂';
+      resultMsgEl.textContent = 'もうすこし！ もういちど チャレンジ してみよう！';
+    } else {
+      resultEmojiEl.textContent = '💪';
+      resultMsgEl.textContent = 'だいじょうぶ！ なんかいも れんしゅう すれば きっと できるよ！';
+    }
+    showScreen('result');
+  }
+
+  document.getElementById('retryBtn').addEventListener('click', function(){
+    startLevel(state.level);
+  });
+  document.getElementById('toSelectBtn').addEventListener('click', function(){
+    showScreen('select');
+  });
+
+})();
+</script>
+</body>
+</html>
