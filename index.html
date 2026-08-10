@@ -41,16 +41,8 @@
     flex-direction:column;
   }
 
-  /* ---------- header / mascot ---------- */
-  header{
-    text-align:center;
-    padding-top:8px;
-    margin-bottom:6px;
-  }
-  .mascot-wrap{
-    width:100px; height:100px; margin:0 auto 4px;
-    animation: bob 3.2s ease-in-out infinite;
-  }
+  header{ text-align:center; padding-top:8px; margin-bottom:6px; }
+  .mascot-wrap{ width:100px; height:100px; margin:0 auto 4px; animation: bob 3.2s ease-in-out infinite; }
   @keyframes bob{
     0%,100%{ transform: translateY(0) rotate(-2deg); }
     50%{ transform: translateY(-8px) rotate(2deg); }
@@ -59,25 +51,15 @@
   #mascot-cheeks{ opacity:0; transition: opacity 0.2s ease; }
   .mascot-happy #mascot-cheeks{ opacity:1; }
 
-  h1{
-    font-size:1.35rem;
-    margin:2px 0 2px;
-    font-weight:900;
-    letter-spacing:0.02em;
-  }
+  h1{ font-size:1.3rem; margin:2px 0 2px; font-weight:900; letter-spacing:0.02em; }
   h1 .radical{ color:var(--orange); }
-  .sub{
-    font-size:0.82rem;
-    color:#6b7290;
-    margin:0;
-  }
+  .sub{ font-size:0.8rem; color:#6b7290; margin:0; }
 
-  /* ---------- speech bubble ---------- */
   .bubble{
     background:var(--white);
     border-radius:18px;
     padding:14px 18px;
-    font-size:0.9rem;
+    font-size:0.88rem;
     line-height:1.7;
     box-shadow: 0 4px 0 rgba(45,48,71,0.08);
     position:relative;
@@ -85,8 +67,7 @@
   }
   .bubble:before{
     content:"";
-    position:absolute;
-    top:-9px; left:34px;
+    position:absolute; top:-9px; left:34px;
     border-width:0 9px 9px 9px;
     border-style:solid;
     border-color:transparent transparent var(--white) transparent;
@@ -94,58 +75,35 @@
   .bubble b{ color:var(--orange-dark); }
   .bubble .name{ color:var(--teal-dark); font-weight:800; }
 
-  /* ---------- generic screen ---------- */
   .screen{ display:none; flex:1; flex-direction:column; }
   .screen.active{ display:flex; }
 
-  /* ---------- level select ---------- */
   .level-card{
-    display:flex;
-    align-items:center;
-    gap:14px;
-    width:100%;
-    border:none;
-    border-radius:22px;
-    padding:16px 18px;
-    margin-bottom:16px;
-    font-family:inherit;
-    font-size:1.02rem;
-    font-weight:800;
-    color:var(--white);
-    cursor:pointer;
-    text-align:left;
-    box-shadow: var(--shadow);
+    display:flex; align-items:center; gap:14px; width:100%;
+    border:none; border-radius:22px; padding:16px 18px; margin-bottom:16px;
+    font-family:inherit; font-size:1rem; font-weight:800; color:var(--white);
+    cursor:pointer; text-align:left; box-shadow: var(--shadow);
     transform: translateY(0);
     transition: transform .08s ease, box-shadow .08s ease;
   }
   .level-card:active{ transform: translateY(6px); box-shadow: 0 2px 0 rgba(45,48,71,0.15); }
   .level-card .emoji{ font-size:2.1rem; line-height:1; filter:drop-shadow(0 2px 0 rgba(0,0,0,0.08)); }
   .level-card .txt{ display:flex; flex-direction:column; gap:2px; }
-  .level-card .txt small{ font-weight:600; font-size:0.72rem; opacity:0.9; }
+  .level-card .txt small{ font-weight:600; font-size:0.7rem; opacity:0.92; line-height:1.4; }
   .lv-easy{ background: linear-gradient(180deg, #34d6c4, var(--teal-dark)); }
   .lv-normal{ background: linear-gradient(180deg, #ffa361, var(--orange-dark)); }
   .lv-hard{ background: linear-gradient(180deg, #f56d92, var(--coral-dark)); }
 
   .howto{
-    background:var(--white);
-    border-radius:18px;
-    padding:16px 18px;
-    margin-top:auto;
-    font-size:0.82rem;
-    line-height:1.7;
-    box-shadow: 0 4px 0 rgba(45,48,71,0.08);
+    background:var(--white); border-radius:18px; padding:16px 18px; margin-top:auto;
+    font-size:0.8rem; line-height:1.75; box-shadow: 0 4px 0 rgba(45,48,71,0.08);
   }
   .howto b{ color:var(--orange-dark); }
+  .howto .ex{ display:block; margin-top:4px; color:#6b7290; }
 
-  /* ---------- quiz screen ---------- */
-  .progress-row{
-    display:flex; justify-content:center; gap:6px;
-    margin: 6px 0 14px;
-    flex-wrap:wrap;
-  }
+  .progress-row{ display:flex; justify-content:center; gap:6px; margin: 6px 0 14px; flex-wrap:wrap; }
   .dot{
-    width:20px; height:20px; border-radius:50%;
-    background:#dfe3f0;
+    width:20px; height:20px; border-radius:50%; background:#dfe3f0;
     display:flex; align-items:center; justify-content:center;
     font-size:0.6rem; font-weight:800; color:#fff;
     transition: background .2s ease, transform .2s ease;
@@ -155,87 +113,53 @@
   .dot.wrong{ background:var(--coral); }
 
   .score-pill{
-    align-self:center;
-    background:var(--white);
-    border-radius:999px;
-    padding:6px 16px;
-    font-size:0.78rem;
-    font-weight:800;
-    color:var(--navy);
-    box-shadow: 0 3px 0 rgba(45,48,71,0.08);
-    margin-bottom:8px;
+    align-self:center; background:var(--white); border-radius:999px; padding:6px 16px;
+    font-size:0.76rem; font-weight:800; color:var(--navy);
+    box-shadow: 0 3px 0 rgba(45,48,71,0.08); margin-bottom:8px;
   }
 
   .question-card{
-    background:var(--white);
-    border-radius:28px;
-    padding:30px 20px 24px;
-    text-align:center;
-    box-shadow: 0 10px 0 rgba(45,48,71,0.10);
-    position:relative;
-    margin-bottom:14px;
+    background:var(--white); border-radius:28px; padding:30px 18px 24px; text-align:center;
+    box-shadow: 0 10px 0 rgba(45,48,71,0.10); position:relative; margin-bottom:14px;
   }
   .question-card .level-tag{
     position:absolute; top:-14px; left:50%; transform:translateX(-50%);
-    padding:4px 16px; border-radius:999px; color:#fff; font-size:0.72rem; font-weight:800;
-    box-shadow: 0 3px 0 rgba(45,48,71,0.15);
+    padding:4px 16px; border-radius:999px; color:#fff; font-size:0.7rem; font-weight:800;
+    box-shadow: 0 3px 0 rgba(45,48,71,0.15); white-space:nowrap;
   }
-  .radical-expr{
-    font-size:2.8rem;
-    font-weight:900;
-    color:var(--navy);
-    display:flex;
-    align-items:flex-end;
-    justify-content:center;
-    gap:4px;
-    margin-bottom:4px;
+  .expr-area{
+    font-size:2.6rem; font-weight:900; color:var(--navy);
+    display:flex; align-items:flex-end; justify-content:center;
+    gap:4px; margin-bottom:4px; flex-wrap:wrap;
   }
-  .radical-expr .sqrt-symbol{ color:var(--orange); position:relative; top:2px; }
-  .radical-expr .under-line{ border-top:5px solid var(--navy); padding:0 6px 2px; }
-  .hint-text{
-    font-size:0.78rem; color:#8a90ab; margin:0 0 16px;
-  }
+  .expr-area.wide{ font-size:1.9rem; }
+  .expr-area .sqrt-symbol{ color:var(--orange); position:relative; top:2px; }
+  .expr-area .under-line{ border-top:5px solid var(--navy); padding:0 6px 2px; }
+  .expr-area .coeff{ color:var(--coral-dark); }
+  .expr-area .op{ margin:0 6px; color:#8a90ab; font-size:0.7em; align-self:center; }
+  .hint-text{ font-size:0.76rem; color:#8a90ab; margin:0 0 16px; }
 
-  .answer-row{
-    display:flex; align-items:center; justify-content:center; gap:10px;
-    margin-bottom:6px;
+  .answer-row{ display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:6px; }
+  .answer-row.hidden{ display:none; }
+  .num-input{
+    font-size:1.7rem; font-weight:800; text-align:center; padding:10px 6px;
+    border-radius:16px; border:3px solid #dfe3f0; font-family:inherit; color:var(--navy);
+    outline:none; transition:border-color .15s ease, background .15s ease;
   }
-  #answerInput{
-    width:120px;
-    font-size:1.8rem;
-    font-weight:800;
-    text-align:center;
-    padding:10px 6px;
-    border-radius:16px;
-    border:3px solid #dfe3f0;
-    font-family:inherit;
-    color:var(--navy);
-    outline:none;
-    transition:border-color .15s ease, background .15s ease;
-  }
-  #answerInput:focus{ border-color:var(--orange); }
-  #answerInput.correct{ border-color:var(--green); background:#eafff7; }
-  #answerInput.wrong{ border-color:var(--coral); background:#fff0f4; }
+  .num-input.wide-basic{ width:120px; }
+  .num-input.small{ width:78px; }
+  .num-input:focus{ border-color:var(--orange); }
+  .num-input.correct{ border-color:var(--green); background:#eafff7; }
+  .num-input.wrong{ border-color:var(--coral); background:#fff0f4; }
+  .root-label{ font-size:1.6rem; font-weight:900; color:var(--orange); }
 
-  .feedback{
-    min-height:1.2em;
-    font-weight:800;
-    font-size:0.92rem;
-    margin-top:4px;
-  }
+  .feedback{ min-height:1.2em; font-weight:800; font-size:0.9rem; margin-top:4px; }
   .feedback.correct{ color:var(--teal-dark); }
   .feedback.wrong{ color:var(--coral-dark); }
 
   .explain-box{
-    display:none;
-    text-align:left;
-    background:#fff6ea;
-    border:2px dashed var(--yellow);
-    border-radius:16px;
-    padding:12px 16px;
-    margin-top:14px;
-    font-size:0.85rem;
-    line-height:1.75;
+    display:none; text-align:left; background:#fff6ea; border:2px dashed var(--yellow);
+    border-radius:16px; padding:12px 16px; margin-top:14px; font-size:0.83rem; line-height:1.75;
   }
   .explain-box.show{ display:block; }
   .explain-box .ttl{ font-weight:800; color:var(--orange-dark); margin-bottom:4px; }
@@ -243,16 +167,8 @@
   .explain-box .num{ font-weight:800; color:var(--coral-dark); }
 
   .btn{
-    display:block;
-    width:100%;
-    border:none;
-    border-radius:18px;
-    padding:15px;
-    font-family:inherit;
-    font-size:1.02rem;
-    font-weight:800;
-    color:#fff;
-    cursor:pointer;
+    display:block; width:100%; border:none; border-radius:18px; padding:15px;
+    font-family:inherit; font-size:1rem; font-weight:800; color:#fff; cursor:pointer;
     box-shadow: var(--shadow);
     transition: transform .08s ease, box-shadow .08s ease, opacity .2s;
   }
@@ -260,32 +176,21 @@
   .btn:disabled{ opacity:0.45; cursor:not-allowed; }
   .btn-primary{ background: linear-gradient(180deg, #ffa361, var(--orange-dark)); }
   .btn-secondary{
-    background:var(--white); color:var(--navy);
-    box-shadow: 0 5px 0 rgba(45,48,71,0.08);
-    margin-top:10px;
+    background:var(--white); color:var(--navy); box-shadow: 0 5px 0 rgba(45,48,71,0.08); margin-top:10px;
   }
   .btn-secondary:active{ box-shadow: 0 1px 0 rgba(45,48,71,0.08); }
 
-  /* ---------- result screen ---------- */
   .result-card{
-    background:var(--white);
-    border-radius:28px;
-    padding:30px 22px;
-    text-align:center;
-    box-shadow: 0 10px 0 rgba(45,48,71,0.10);
-    margin-bottom:16px;
+    background:var(--white); border-radius:28px; padding:30px 22px; text-align:center;
+    box-shadow: 0 10px 0 rgba(45,48,71,0.10); margin-bottom:16px;
   }
   .result-emoji{ font-size:3.4rem; margin-bottom:4px; }
-  .result-score{
-    font-size:2.4rem; font-weight:900; margin:4px 0 2px;
-  }
+  .result-score{ font-size:2.4rem; font-weight:900; margin:4px 0 2px; }
   .result-score span{ font-size:1.1rem; color:#8a90ab; font-weight:800; }
-  .result-msg{ font-size:0.92rem; color:#6b7290; margin-bottom:14px; line-height:1.7; }
+  .result-msg{ font-size:0.9rem; color:#6b7290; margin-bottom:14px; line-height:1.7; }
   .result-stars{ font-size:1.5rem; letter-spacing:6px; margin-bottom:8px; }
 
-  footer.note{
-    text-align:center; font-size:0.68rem; color:#a2a7bd; margin-top:16px;
-  }
+  footer.note{ text-align:center; font-size:0.66rem; color:#a2a7bd; margin-top:16px; }
 
   @media (prefers-reduced-motion: reduce){
     .mascot-wrap{ animation:none; }
@@ -311,38 +216,35 @@
       </svg>
     </div>
     <h1><span class="radical">√</span> しょうまの <ruby>平方根<rt>へいほうこん</rt></ruby>ぼうけん</h1>
-    <p class="sub">かず の もり を すすんで、ルートはかせ と いっしょに ゴールを めざそう</p>
+    <p class="sub">ルートはかせ と いっしょに 3つの 章 に ちょうせん しよう</p>
   </header>
 
   <!-- ================= レベルせんたく画面 ================= -->
   <section class="screen active" id="screen-select">
     <div class="bubble" id="introBubble">
       <span class="name">ルートはかせ：</span><br>
-      やあ、<b>しょうま</b>！ また あそびに きてくれたね。<br>
-      きょうの「√（ルート）」の もんだい は <b>まいかい ランダム</b> だよ。<br>
-      おなじ もんだい が でにくい から、こたえ を まるあんき せずに、<br>
-      ちゃんと けいさん して とく れんしゅう を しよう！
+      やあ、<b>しょうま</b>！ 章 が すすむ ごとに もんだいの タイプ が かわる よ。<br>
+      もんだいは いつも <b>ランダム</b> だから、まるあんき せず、その ばで けいさん して こたえよう。
     </div>
 
     <button class="level-card lv-easy" data-level="easy">
       <span class="emoji">🐣</span>
-      <span class="txt">第1章・やさしい森<small>1〜15 の中から ランダムに10もん</small></span>
+      <span class="txt">第1章・やさしい森<small>√の きほん(例:√9=3)・ランダムに10もん</small></span>
     </button>
     <button class="level-card lv-normal" data-level="normal">
       <span class="emoji">🐰</span>
-      <span class="txt">第2章・ふつう山<small>16〜30 の中から ランダムに10もん</small></span>
+      <span class="txt">第2章・ふつう山<small>√を かんたんに する(例:√8=2√2、√27=3√3)・ランダムに10もん</small></span>
     </button>
     <button class="level-card lv-hard" data-level="hard">
       <span class="emoji">🦁</span>
-      <span class="txt">第3章・むずかしい城<small>31〜50 の中から ランダムに10もん</small></span>
+      <span class="txt">第3章・むずかしい城<small>√どうしの かけ算(例:2√3×3√5=6√15)・ランダムに10もん</small></span>
     </button>
 
     <div class="howto">
       <b>あそびかた</b><br>
-      「√（ルート）」の した に かいてある すうじ に なるように、<br>
-      おなじ すうじ を 2かい かけざん した とき の こたえ を いれてね。<br>
-      れい：√9 → 3×3=9 だから こたえは <b>3</b><br>
-      もんだいは <b>まいかい ランダム</b> に えらばれる から、じゅんばん を おぼえても いみが ないよ。しっかり けいさん しよう！
+      第1章：「□×□」に なる かずを こたえよう。<span class="ex">れい：√9 → 3×3=9 だから こたえは 3</span>
+      第2章：もんだいの すうじ を「けいすう√なかのかず」の かたち に かんたんに しよう。<span class="ex">れい：√8 = 2√2 → けいすう=2、なかのかず=2</span>
+      第3章：2つの √どうし を かけて、さいごまで かんたんに した こたえ を いれよう。<span class="ex">れい：2√3 × 3√5 = 6√15 → けいすう=6、なかのかず=15</span>
     </div>
   </section>
 
@@ -357,15 +259,18 @@
 
     <div class="question-card">
       <span class="level-tag" id="quizLevelTag"></span>
-      <div class="radical-expr">
-        <span class="sqrt-symbol">√</span>
-        <span class="under-line" id="questionNumber">0</span>
-      </div>
-      <p class="hint-text">□ × □ に なる かず は？</p>
+      <div class="expr-area" id="exprArea"></div>
+      <p class="hint-text" id="hintText">□ × □ に なる かず は？</p>
 
-      <div class="answer-row">
-        <input type="number" id="answerInput" inputmode="numeric" placeholder="?" autocomplete="off">
+      <div class="answer-row" id="answerRowBasic">
+        <input type="number" id="answerInput" class="num-input wide-basic" inputmode="numeric" placeholder="?" autocomplete="off">
       </div>
+      <div class="answer-row hidden" id="answerRowRoot">
+        <input type="number" id="coeffInput" class="num-input small" inputmode="numeric" placeholder="けいすう" autocomplete="off">
+        <span class="root-label">√</span>
+        <input type="number" id="radicandInput" class="num-input small" inputmode="numeric" placeholder="なかの数" autocomplete="off">
+      </div>
+
       <p class="feedback" id="feedback"></p>
 
       <div class="explain-box" id="explainBox">
@@ -400,26 +305,25 @@
   "use strict";
 
   var PLAYER_NAME = "しょうま";
+  var QUESTION_COUNT = 10;
 
   var LEVELS = {
-    easy:   { label:"第1章・やさしい森",   color:"#209e93", min:1,  max:15, emoji:"🐣" },
-    normal: { label:"第2章・ふつう山",     color:"#e8722a", min:16, max:30, emoji:"🐰" },
-    hard:   { label:"第3章・むずかしい城", color:"#d6335b", min:31, max:50, emoji:"🦁" }
+    easy:   { type:'basic',    label:'第1章・やさしい森',   color:'#209e93', emoji:'🐣', min:1, max:15 },
+    normal: { type:'simplify', label:'第2章・ふつう山',     color:'#e8722a', emoji:'🐰', min:2, max:100 },
+    hard:   { type:'multiply', label:'第3章・むずかしい城', color:'#d6335b', emoji:'🦁' }
   };
-  var QUESTION_COUNT = 10;
 
   var state = {
     level: null,
+    levelType: null,
     problems: [],
     index: 0,
     correctCount: 0,
-    results: [] // 'correct' | 'wrong' | null per question
+    results: []
   };
 
-  // ---------- まいかい ランダム に もんだいを つくる（じゅんばん・きまり を おぼえられない ように） ----------
-  function shuffledRange(min, max){
-    var arr = [];
-    for (var i = min; i <= max; i++) arr.push(i);
+  // ---------- 汎用ユーティリティ ----------
+  function shuffleArray(arr){
     for (var j = arr.length - 1; j > 0; j--){
       var k = Math.floor(Math.random() * (j + 1));
       var tmp = arr[j]; arr[j] = arr[k]; arr[k] = tmp;
@@ -427,12 +331,100 @@
     return arr;
   }
 
-  function buildProblems(levelKey){
-    var lvl = LEVELS[levelKey];
-    var bases = shuffledRange(lvl.min, lvl.max).slice(0, QUESTION_COUNT);
+  // n を a√b（bはこれ以上かんたんにできない形）に分解する
+  function simplify(n){
+    var coeff = 1;
+    var radicand = n;
+    for (var i = 2; i * i <= radicand; i++){
+      while (radicand % (i * i) === 0){
+        radicand = radicand / (i * i);
+        coeff *= i;
+      }
+    }
+    return { coeff: coeff, radicand: radicand };
+  }
+
+  // ---------- 第1章：√の きほん（1〜15の中からランダムに10問） ----------
+  function buildBasicProblems(lvl){
+    var bases = shuffleArray((function(){
+      var arr = [];
+      for (var i = lvl.min; i <= lvl.max; i++) arr.push(i);
+      return arr;
+    })()).slice(0, QUESTION_COUNT);
     return bases.map(function(base){
       return { base: base, square: base * base };
     });
+  }
+
+  // ---------- 第2章：√を かんたんに する（2〜100の中から、けいすう>1のものをランダムに10問） ----------
+  function buildSimplifyProblems(lvl){
+    var pool = [];
+    for (var n = lvl.min; n <= lvl.max; n++){
+      var s = simplify(n);
+      if (s.coeff > 1 && s.radicand > 1){
+        pool.push({ n: n, coeff: s.coeff, radicand: s.radicand });
+      }
+    }
+    shuffleArray(pool);
+    return pool.slice(0, QUESTION_COUNT);
+  }
+
+  // ---------- 第3章：√どうしの かけ算をランダムに10問 ----------
+  var HARD_RADICANDS = [2, 3, 5, 6, 7, 10, 11, 13, 14, 15];
+  var HARD_COEFFS = [1, 2, 3];
+
+  function randomTerm(){
+    var a = HARD_COEFFS[Math.floor(Math.random() * HARD_COEFFS.length)];
+    var b = HARD_RADICANDS[Math.floor(Math.random() * HARD_RADICANDS.length)];
+    return { a: a, b: b };
+  }
+
+  function buildHardProblems(){
+    var seen = {};
+    var list = [];
+    var attempts = 0;
+    while (list.length < QUESTION_COUNT && attempts < 600){
+      attempts++;
+      var t1 = randomTerm();
+      var t2 = randomTerm();
+      var terms = [t1, t2].sort(function(x, y){ return (x.b - y.b) || (x.a - y.a); });
+      var key = terms[0].a + '_' + terms[0].b + 'x' + terms[1].a + '_' + terms[1].b;
+      if (seen[key]) continue;
+      seen[key] = true;
+
+      var rawCoeff = terms[0].a * terms[1].a;
+      var rawRadicand = terms[0].b * terms[1].b;
+      var simp = simplify(rawRadicand);
+      var finalCoeff = rawCoeff * simp.coeff;
+      var finalRadicand = simp.radicand;
+
+      list.push({
+        term1: terms[0],
+        term2: terms[1],
+        rawCoeff: rawCoeff,
+        rawRadicand: rawRadicand,
+        simpCoeff: simp.coeff,
+        answerCoeff: finalCoeff,
+        answerRadicand: finalRadicand
+      });
+    }
+    return list;
+  }
+
+  function buildProblems(levelKey){
+    var lvl = LEVELS[levelKey];
+    if (lvl.type === 'basic') return buildBasicProblems(lvl);
+    if (lvl.type === 'simplify') return buildSimplifyProblems(lvl);
+    return buildHardProblems();
+  }
+
+  // ---------- 表示ヘルパー ----------
+  function formatTermPlain(a, b){
+    return (a === 1 ? '' : a) + '√' + b;
+  }
+  function formatTermHTML(a, b){
+    var coeffHtml = (a === 1) ? '' : '<span class="coeff">' + a + '</span>';
+    return coeffHtml + '<span class="sqrt-symbol">√</span><span class="under-line">' + b + '</span>';
   }
 
   // ---------- screens ----------
@@ -471,13 +463,15 @@
 
   var quizBubbleText = document.getElementById('quizBubbleText');
   var START_LINES = {
-    easy:   PLAYER_NAME + "、ここは かずの もり だよ。もんだい は ランダム、ゆだんせず いこう！",
-    normal: PLAYER_NAME + "、つぎは すこし たかい やま だ。かずが おおきく なるよ、いこう！",
-    hard:   PLAYER_NAME + "、いよいよ じょう の なかだ。おちついて けいさん して いこう！"
+    easy:   PLAYER_NAME + '、ここは かずの もり だよ。もんだいは ランダム、ゆだんせず いこう！',
+    normal: PLAYER_NAME + '、ここからは √を「a√b」の かたち に かんたんに する れんしゅう だ！',
+    hard:   PLAYER_NAME + '、いよいよ じょう の なかだ。√どうしの かけ算、おちついて いこう！'
   };
 
   function startLevel(levelKey){
+    var lvl = LEVELS[levelKey];
     state.level = levelKey;
+    state.levelType = lvl.type;
     state.problems = buildProblems(levelKey);
     state.index = 0;
     state.correctCount = 0;
@@ -514,8 +508,13 @@
 
   // ---------- quiz rendering ----------
   var quizLevelTag = document.getElementById('quizLevelTag');
-  var questionNumberEl = document.getElementById('questionNumber');
+  var exprArea = document.getElementById('exprArea');
+  var hintText = document.getElementById('hintText');
+  var answerRowBasic = document.getElementById('answerRowBasic');
+  var answerRowRoot = document.getElementById('answerRowRoot');
   var answerInput = document.getElementById('answerInput');
+  var coeffInput = document.getElementById('coeffInput');
+  var radicandInput = document.getElementById('radicandInput');
   var feedbackEl = document.getElementById('feedback');
   var checkBtn = document.getElementById('checkBtn');
   var scorePill = document.getElementById('scorePill');
@@ -525,11 +524,17 @@
   var explainStep3 = document.getElementById('explainStep3');
 
   var ENCOURAGE_LINES = [
-    PLAYER_NAME + "、つぎの もんだい だよ！",
-    "いいちょうし だ、" + PLAYER_NAME + "！ つぎ いってみよう。",
-    PLAYER_NAME + "なら、この もんだい も とけるはず！",
-    "その ちょうし！ つぎの すうじ は……？"
+    PLAYER_NAME + '、つぎの もんだい だよ！',
+    'いいちょうし だ、' + PLAYER_NAME + '！ つぎ いってみよう。',
+    PLAYER_NAME + 'なら、この もんだい も とけるはず！',
+    'その ちょうし！ つぎの もんだい は……？'
   ];
+
+  var HINT_TEXTS = {
+    basic: '□ × □ に なる かず は？',
+    simplify: 'けいすう と なかの数 を「これ いじょう かんたんに できない」かたち で こたえてね',
+    multiply: 'かけ算 した あと、さいごまで かんたんに した こたえ を いれてね'
+  };
 
   function renderQuestion(){
     var lvl = LEVELS[state.level];
@@ -537,11 +542,37 @@
     quizLevelTag.style.background = lvl.color;
 
     var problem = state.problems[state.index];
-    questionNumberEl.textContent = problem.square;
+    hintText.textContent = HINT_TEXTS[lvl.type];
+    exprArea.classList.toggle('wide', lvl.type === 'multiply');
 
-    answerInput.value = '';
-    answerInput.classList.remove('correct', 'wrong');
-    answerInput.disabled = false;
+    if (lvl.type === 'basic'){
+      exprArea.innerHTML = '<span class="sqrt-symbol">√</span><span class="under-line">' + problem.square + '</span>';
+      answerRowBasic.classList.remove('hidden');
+      answerRowRoot.classList.add('hidden');
+      answerInput.value = '';
+      answerInput.classList.remove('correct', 'wrong');
+      answerInput.disabled = false;
+    } else if (lvl.type === 'simplify'){
+      exprArea.innerHTML = '<span class="sqrt-symbol">√</span><span class="under-line">' + problem.n + '</span>';
+      answerRowBasic.classList.add('hidden');
+      answerRowRoot.classList.remove('hidden');
+      coeffInput.value = ''; radicandInput.value = '';
+      coeffInput.classList.remove('correct', 'wrong');
+      radicandInput.classList.remove('correct', 'wrong');
+      coeffInput.disabled = false; radicandInput.disabled = false;
+    } else {
+      exprArea.innerHTML =
+        formatTermHTML(problem.term1.a, problem.term1.b) +
+        '<span class="op">×</span>' +
+        formatTermHTML(problem.term2.a, problem.term2.b);
+      answerRowBasic.classList.add('hidden');
+      answerRowRoot.classList.remove('hidden');
+      coeffInput.value = ''; radicandInput.value = '';
+      coeffInput.classList.remove('correct', 'wrong');
+      radicandInput.classList.remove('correct', 'wrong');
+      coeffInput.disabled = false; radicandInput.disabled = false;
+    }
+
     feedbackEl.textContent = '';
     feedbackEl.className = 'feedback';
     explainBox.classList.remove('show');
@@ -556,53 +587,94 @@
     scorePill.textContent = 'せいかい ' + state.correctCount + ' もん';
     updateProgressDots();
 
-    setTimeout(function(){ answerInput.focus(); }, 50);
+    setTimeout(function(){
+      (lvl.type === 'basic' ? answerInput : coeffInput).focus();
+    }, 50);
   }
 
   var awaitingNext = false;
 
-  function showExplanation(problem){
-    var base = problem.base;
-    var square = problem.square;
-    var lower = base - 1;
-    var upper = base + 1;
-
+  // ---------- かいせつ ----------
+  function showBasicExplanation(problem){
+    var base = problem.base, square = problem.square;
+    var lower = base - 1, upper = base + 1;
     explainStep1.innerHTML = PLAYER_NAME + '、いっしょに かくにん しよう。<span class="num">' + base + '</span> × <span class="num">' + base + '</span> = <span class="num">' + square + '</span> だね。';
     explainStep2.innerHTML = 'はさみうち で かんがえると：<span class="num">' + lower + '</span>×' + lower + '=' + (lower*lower) + ' 、<span class="num">' + upper + '</span>×' + upper + '=' + (upper*upper) + '。<br>' + square + ' は ちょうど その あいだ だから、こたえ は <span class="num">' + base + '</span> に なるよ。';
-    explainStep3.textContent = '一の位（いちのくらい）の かずにも ちゅうもく！ ' + base + ' の 一の位 は ' + (base % 10) + '、二乗すると 一の位が ' + (square % 10) + ' に なる きまり も おぼえて おくと べんりだよ。';
-    explainBox.classList.add('show');
+    explainStep3.textContent = '一の位（いちのくらい）にも ちゅうもく！ ' + base + ' の 一の位 は ' + (base % 10) + '、二乗すると 一の位が ' + (square % 10) + ' に なる きまり も おぼえて おくと べんりだよ。';
+  }
+
+  function showSimplifyExplanation(problem){
+    var n = problem.n, coeff = problem.coeff, radicand = problem.radicand;
+    explainStep1.innerHTML = PLAYER_NAME + '、まず ' + n + ' を そいんすう分解 しよう。<span class="num">' + coeff + '</span> × <span class="num">' + coeff + '</span> × <span class="num">' + radicand + '</span> = ' + n + ' のように、おなじ 数が 2つ そろう ぶぶん が あるね。';
+    explainStep2.innerHTML = 'おなじ 数が 2つ そろうと、そとに 出せる きまり が あるよ：<br>√' + n + ' = √(' + coeff + '×' + coeff + '×' + radicand + ') = <span class="num">' + coeff + '√' + radicand + '</span>';
+    explainStep3.textContent = radicand + ' には もう 2つそろう 数が ないから、これ いじょう かんたんに できないよ。だから こたえは けいすう=' + coeff + '、なかの数=' + radicand + ' だよ。';
+  }
+
+  function showMultiplyExplanation(problem){
+    var t1 = formatTermPlain(problem.term1.a, problem.term1.b);
+    var t2 = formatTermPlain(problem.term2.a, problem.term2.b);
+    explainStep1.innerHTML = PLAYER_NAME + '、√どうしの かけ算 は「なかの数どうし」を かければ いいんだ：√a × √b = √(a×b)';
+    explainStep2.innerHTML = t1 + ' × ' + t2 + ' = <span class="num">' + problem.rawCoeff + '</span>√(' + problem.term1.b + '×' + problem.term2.b + ') = ' + problem.rawCoeff + '√' + problem.rawRadicand;
+    if (problem.simpCoeff > 1){
+      explainStep3.innerHTML = problem.rawRadicand + ' は まだ かんたんに できる（' + problem.simpCoeff + '×' + problem.simpCoeff + '×' + problem.answerRadicand + '=' + problem.rawRadicand + '）から、さいごは <span class="num">' + problem.answerCoeff + '√' + problem.answerRadicand + '</span> に なるよ。';
+    } else {
+      explainStep3.textContent = problem.rawRadicand + ' は これ いじょう かんたんに できない から、こたえは ' + problem.answerCoeff + '√' + problem.answerRadicand + ' の ままだよ。';
+    }
   }
 
   function checkAnswer(){
-    if (awaitingNext){
-      goNext();
-      return;
-    }
+    if (awaitingNext){ goNext(); return; }
+
+    var lvl = LEVELS[state.level];
     var problem = state.problems[state.index];
-    var raw = answerInput.value.trim();
-    if (raw === '') {
-      feedbackEl.textContent = PLAYER_NAME + '、すうじ を いれてね';
-      feedbackEl.className = 'feedback wrong';
-      return;
+    var isCorrect = false;
+    var correctText = '';
+
+    if (lvl.type === 'basic'){
+      var raw = answerInput.value.trim();
+      if (raw === ''){
+        feedbackEl.textContent = PLAYER_NAME + '、すうじ を いれてね';
+        feedbackEl.className = 'feedback wrong';
+        return;
+      }
+      var val = Number(raw);
+      isCorrect = (val === problem.base);
+      answerInput.disabled = true;
+      answerInput.classList.add(isCorrect ? 'correct' : 'wrong');
+      correctText = 'せいかいは ' + problem.base + ' だよ。';
+    } else {
+      var rawC = coeffInput.value.trim();
+      var rawR = radicandInput.value.trim();
+      if (rawC === '' || rawR === ''){
+        feedbackEl.textContent = PLAYER_NAME + '、りょうほう の らんに すうじ を いれてね';
+        feedbackEl.className = 'feedback wrong';
+        return;
+      }
+      var valC = Number(rawC), valR = Number(rawR);
+      var targetC = (lvl.type === 'simplify') ? problem.coeff : problem.answerCoeff;
+      var targetR = (lvl.type === 'simplify') ? problem.radicand : problem.answerRadicand;
+      isCorrect = (valC === targetC && valR === targetR);
+      coeffInput.disabled = true; radicandInput.disabled = true;
+      coeffInput.classList.add(isCorrect ? 'correct' : 'wrong');
+      radicandInput.classList.add(isCorrect ? 'correct' : 'wrong');
+      correctText = 'せいかいは ' + formatTermPlain(targetC, targetR) + ' だよ。';
     }
-    var val = Number(raw);
-    var isCorrect = (val === problem.base);
 
     state.results[state.index] = isCorrect ? 'correct' : 'wrong';
     if (isCorrect) state.correctCount++;
 
-    answerInput.disabled = true;
-    answerInput.classList.add(isCorrect ? 'correct' : 'wrong');
-
     if (isCorrect){
-      feedbackEl.textContent = 'せいかい！ ' + problem.base + ' × ' + problem.base + ' = ' + problem.square + ' 🎉';
+      feedbackEl.textContent = 'せいかい！ 🎉';
       feedbackEl.className = 'feedback correct';
       quizBubbleText.textContent = 'やったね、' + PLAYER_NAME + '！ さすが だ！';
     } else {
-      feedbackEl.textContent = 'おしい！ せいかいは ' + problem.base + ' だよ。';
+      feedbackEl.textContent = 'おしい！ ' + correctText;
       feedbackEl.className = 'feedback wrong';
       quizBubbleText.textContent = PLAYER_NAME + '、だいじょうぶ。いっしょに かいせつ を みてみよう。';
-      showExplanation(problem);
+      if (lvl.type === 'basic') showBasicExplanation(problem);
+      else if (lvl.type === 'simplify') showSimplifyExplanation(problem);
+      else showMultiplyExplanation(problem);
+      explainBox.classList.add('show');
     }
 
     setMascot(isCorrect ? 'happy' : 'sad');
@@ -625,11 +697,10 @@
   }
 
   checkBtn.addEventListener('click', checkAnswer);
-  answerInput.addEventListener('keydown', function(e){
-    if (e.key === 'Enter'){
-      e.preventDefault();
-      checkAnswer();
-    }
+  [answerInput, coeffInput, radicandInput].forEach(function(inp){
+    inp.addEventListener('keydown', function(e){
+      if (e.key === 'Enter'){ e.preventDefault(); checkAnswer(); }
+    });
   });
 
   document.getElementById('backBtn').addEventListener('click', function(){
