@@ -55,6 +55,21 @@
   h1 .radical{ color:var(--orange); }
   .sub{ font-size:0.8rem; color:#6b7290; margin:0; }
 
+  .streak-badge{
+    display:inline-flex; align-items:center; gap:5px;
+    background:var(--white); border-radius:999px; padding:6px 16px;
+    font-weight:800; font-size:0.85rem; color:var(--orange-dark);
+    box-shadow:0 3px 0 rgba(45,48,71,0.08); margin-top:8px;
+  }
+  .streak-badge .flame{ font-size:1rem; }
+  .streak-badge.bump{ animation: streakBump .35s ease; }
+  .streak-badge.lost{ color: var(--coral-dark); }
+  @keyframes streakBump{
+    0%{ transform:scale(1); }
+    45%{ transform:scale(1.18); }
+    100%{ transform:scale(1); }
+  }
+
   .bubble{
     background:var(--white);
     border-radius:18px;
@@ -189,6 +204,7 @@
   .result-score span{ font-size:1.1rem; color:#8a90ab; font-weight:800; }
   .result-msg{ font-size:0.9rem; color:#6b7290; margin-bottom:14px; line-height:1.7; }
   .result-stars{ font-size:1.5rem; letter-spacing:6px; margin-bottom:8px; }
+  .result-best{ font-size:0.8rem; color:#8a90ab; font-weight:700; margin:0 0 4px; }
 
   footer.note{ text-align:center; font-size:0.66rem; color:#a2a7bd; margin-top:16px; }
 
@@ -217,6 +233,7 @@
     </div>
     <h1><span class="radical">√</span> しょうまの <ruby>平方根<rt>へいほうこん</rt></ruby>ぼうけん</h1>
     <p class="sub">ルートはかせ と いっしょに 3つの 章 に ちょうせん しよう</p>
+    <div class="streak-badge" id="streakBadge"><span class="flame">🔥</span><span id="streakValue">0</span> もん れんぞく正解</div>
   </header>
 
   <!-- ================= レベルせんたく画面 ================= -->
@@ -245,6 +262,7 @@
       第1章：「□×□」に なる かずを こたえよう。<span class="ex">れい：√9 → 3×3=9 だから こたえは 3</span>
       第2章：もんだいの すうじ を「けいすう√なかのかず」の かたち に かんたんに しよう。<span class="ex">れい：√8 = 2√2 → けいすう=2、なかのかず=2</span>
       第3章：2つの √どうし を かけて、さいごまで かんたんに した こたえ を いれよう。<span class="ex">れい：2√3 × 3√5 = 6√15 → けいすう=6、なかのかず=15</span>
+      <span class="ex">🔥 れんぞく正解(ストリーク)は ページを とじても つづくよ。まちがえると 0に もどる から きをつけて！</span>
     </div>
   </section>
 
@@ -291,6 +309,7 @@
       <div class="result-emoji" id="resultEmoji">🎉</div>
       <div class="result-stars" id="resultStars"></div>
       <div class="result-score"><span id="resultScore">0</span><span> / 10 もん せいかい</span></div>
+      <p class="result-best" id="resultBest">🔥 さいこう れんぞく正解：0 もん</p>
       <p class="result-msg" id="resultMsg"></p>
     </div>
     <button class="btn btn-primary" id="retryBtn">おなじ 章 で もういちど</button>
@@ -321,6 +340,24 @@
     correctCount: 0,
     results: []
   };
+
+  // ---------- れんぞく正解(ストリーク)：ブラウザに保存し、章をやめても引き継ぐ ----------
+  // 1問答えるたびに その場で保存するので、「まちがえてから やめて 記録を守る」ことはできない。
+  var STREAK_KEY = 'shoumaMathStreak';
+  function loadStreak(){
+    try{
+      var raw = localStorage.getItem(STREAK_KEY);
+      if (!raw) return { current: 0, best: 0 };
+      var obj = JSON.parse(raw);
+      return { current: obj.current || 0, best: obj.best || 0 };
+    } catch (e){
+      return { current: 0, best: 0 };
+    }
+  }
+  function saveStreak(obj){
+    try{ localStorage.setItem(STREAK_KEY, JSON.stringify(obj)); } catch (e){ /* 保存できない環境は無視 */ }
+  }
+  var streakData = loadStreak();
 
   // ---------- 汎用ユーティリティ ----------
   function shuffleArray(arr){
@@ -522,6 +559,27 @@
   var explainStep1 = document.getElementById('explainStep1');
   var explainStep2 = document.getElementById('explainStep2');
   var explainStep3 = document.getElementById('explainStep3');
+  var streakBadge = document.getElementById('streakBadge');
+  var streakValueEl = document.getElementById('streakValue');
+
+  function renderStreak(){
+    streakValueEl.textContent = streakData.current;
+  }
+  function bumpStreak(isCorrect){
+    if (isCorrect){
+      streakData.current++;
+      if (streakData.current > streakData.best) streakData.best = streakData.current;
+    } else {
+      streakData.current = 0;
+    }
+    saveStreak(streakData);
+    renderStreak();
+    streakBadge.classList.remove('bump', 'lost');
+    void streakBadge.offsetWidth; // 再生アニメーションを強制リスタート
+    if (!isCorrect) streakBadge.classList.add('lost');
+    streakBadge.classList.add('bump');
+  }
+  renderStreak();
 
   var ENCOURAGE_LINES = [
     PLAYER_NAME + '、つぎの もんだい だよ！',
@@ -662,6 +720,7 @@
 
     state.results[state.index] = isCorrect ? 'correct' : 'wrong';
     if (isCorrect) state.correctCount++;
+    bumpStreak(isCorrect);
 
     if (isCorrect){
       feedbackEl.textContent = 'せいかい！ 🎉';
@@ -712,12 +771,14 @@
   var resultMsgEl = document.getElementById('resultMsg');
   var resultEmojiEl = document.getElementById('resultEmoji');
   var resultStarsEl = document.getElementById('resultStars');
+  var resultBestEl = document.getElementById('resultBest');
 
   function showResult(){
     resultScoreEl.textContent = state.correctCount;
     var pct = state.correctCount / state.problems.length;
     var stars = Math.max(1, Math.round(pct * 5));
     resultStarsEl.textContent = '⭐'.repeat(stars);
+    resultBestEl.textContent = '🔥 さいこう れんぞく正解：' + streakData.best + ' もん';
 
     if (pct === 1){
       resultEmojiEl.textContent = '🏆';
