@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>第2章・ふつう山 | しょうまのまなびロード</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#2d3047; --white:#ffffff; --line:#dfe3f0;
+    --accent:#e8722a; --accent-light:#ffa361;
+    --coral:#ef476f; --coral-dark:#d6335b;
+    --yellow:#ffd23f; --green:#06d6a0; --orange-dark:#e8722a;
+    --shadow: 0 8px 0 rgba(45,48,71,0.15);
+  }
+  *{ box-sizing:border-box; }
+  html,body{
+    margin:0; padding:0; min-height:100vh;
+    font-family:'M PLUS Rounded 1c', sans-serif;
+    background: radial-gradient(circle at 15% 10%, #fff2e2 0%, #fff7e0 55%);
+    color:var(--navy); overflow-x:hidden;
+  }
+  .stage{ max-width:520px; margin:0 auto; padding:16px 16px 60px; min-height:100vh; display:flex; flex-direction:column; }
+
+  .topbar{ display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+  .home-link{
+    display:flex; align-items:center; gap:4px; font-weight:800; font-size:0.8rem;
+    color:#6b7290; background:var(--white); padding:7px 12px; border-radius:999px;
+    box-shadow:0 3px 0 rgba(45,48,71,0.08);
+  }
+  .streak-badge{
+    display:inline-flex; align-items:center; gap:5px; background:var(--white); border-radius:999px;
+    padding:7px 14px; font-weight:800; font-size:0.82rem; color:var(--orange-dark);
+    box-shadow:0 3px 0 rgba(45,48,71,0.08);
+  }
+  .streak-badge.bump{ animation: streakBump .35s ease; }
+  .streak-badge.lost{ color: var(--coral-dark); }
+  @keyframes streakBump{ 0%{transform:scale(1);} 45%{transform:scale(1.18);} 100%{transform:scale(1);} }
+
+  header{ text-align:center; padding-top:6px; margin-bottom:6px; }
+  .mascot-wrap{ width:90px; height:90px; margin:0 auto 4px; animation: bob 3.2s ease-in-out infinite; }
+  @keyframes bob{ 0%,100%{ transform: translateY(0) rotate(-2deg); } 50%{ transform: translateY(-8px) rotate(2deg); } }
+  #mascot-mouth{ transition: d 0.15s ease; }
+  #mascot-cheeks{ opacity:0; transition: opacity 0.2s ease; }
+  .mascot-happy #mascot-cheeks{ opacity:1; }
+
+  .chapter-tag{
+    display:inline-block; background:linear-gradient(180deg, var(--accent-light), var(--accent));
+    color:#fff; font-weight:800; font-size:0.72rem; padding:4px 14px; border-radius:999px; margin-bottom:6px;
+  }
+  h1{ font-size:1.2rem; margin:2px 0 2px; font-weight:900; }
+  .sub{ font-size:0.78rem; color:#6b7290; margin:0; }
+
+  .bubble{
+    background:var(--white); border-radius:18px; padding:14px 18px; font-size:0.88rem; line-height:1.7;
+    box-shadow: 0 4px 0 rgba(45,48,71,0.08); position:relative; margin: 10px 0 16px;
+  }
+  .bubble:before{
+    content:""; position:absolute; top:-9px; left:34px;
+    border-width:0 9px 9px 9px; border-style:solid; border-color:transparent transparent var(--white) transparent;
+  }
+  .bubble b{ color:var(--accent); }
+  .bubble .name{ color:var(--accent); font-weight:800; }
+
+  .screen{ display:none; flex:1; flex-direction:column; }
+  .screen.active{ display:flex; }
+
+  .progress-row{ display:flex; justify-content:center; gap:6px; margin: 6px 0 14px; flex-wrap:wrap; }
+  .dot{
+    width:20px; height:20px; border-radius:50%; background:#dfe3f0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.6rem; font-weight:800; color:#fff; transition: background .2s ease, transform .2s ease;
+  }
+  .dot.current{ transform:scale(1.25); box-shadow:0 0 0 3px rgba(232,114,42,0.25); }
+  .dot.correct{ background:var(--green); }
+  .dot.wrong{ background:var(--coral); }
+
+  .score-pill{
+    align-self:center; background:var(--white); border-radius:999px; padding:6px 16px;
+    font-size:0.76rem; font-weight:800; color:var(--navy); box-shadow: 0 3px 0 rgba(45,48,71,0.08); margin-bottom:8px;
+  }
+
+  .question-card{
+    background:var(--white); border-radius:28px; padding:30px 18px 24px; text-align:center;
+    box-shadow: 0 10px 0 rgba(45,48,71,0.10); position:relative; margin-bottom:14px;
+  }
+  .expr-area{
+    font-size:2.8rem; font-weight:900; color:var(--navy);
+    display:flex; align-items:flex-end; justify-content:center; gap:4px; margin-bottom:4px;
+  }
+  .expr-area .sqrt-symbol{ color:var(--accent); position:relative; top:2px; }
+  .expr-area .under-line{ border-top:5px solid var(--navy); padding:0 6px 2px; }
+  .hint-text{ font-size:0.76rem; color:#8a90ab; margin:0 0 16px; }
+
+  .answer-row{ display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:6px; }
+  .num-input{
+    width:88px; font-size:1.6rem; font-weight:800; text-align:center; padding:10px 4px;
+    border-radius:16px; border:3px solid #dfe3f0; font-family:inherit; color:var(--navy);
+    outline:none; transition:border-color .15s ease, background .15s ease;
+  }
+  .num-input:focus{ border-color:var(--accent); }
+  .num-input.correct{ border-color:var(--green); background:#eafff7; }
+  .num-input.wrong{ border-color:var(--coral); background:#fff0f4; }
+  .root-label{ font-size:1.6rem; font-weight:900; color:var(--accent); }
+
+  .feedback{ min-height:1.2em; font-weight:800; font-size:0.9rem; margin-top:4px; }
+  .feedback.correct{ color:var(--accent); }
+  .feedback.wrong{ color:var(--coral-dark); }
+
+  .explain-box{
+    display:none; text-align:left; background:#fff6ea; border:2px dashed var(--yellow);
+    border-radius:16px; padding:12px 16px; margin-top:14px; font-size:0.83rem; line-height:1.75;
+  }
+  .explain-box.show{ display:block; }
+  .explain-box .ttl{ font-weight:800; color:var(--orange-dark); margin-bottom:4px; }
+  .explain-box .step{ margin:2px 0; }
+  .explain-box .num{ font-weight:800; color:var(--coral-dark); }
+
+  .btn{
+    display:block; width:100%; border:none; border-radius:18px; padding:15px;
+    font-family:inherit; font-size:1rem; font-weight:800; color:#fff; cursor:pointer;
+    box-shadow: var(--shadow); transition: transform .08s ease, box-shadow .08s ease;
+  }
+  .btn:active{ transform: translateY(6px); box-shadow: 0 2px 0 rgba(45,48,71,0.15); }
+  .btn:disabled{ opacity:0.45; cursor:not-allowed; }
+  .btn-primary{ background: linear-gradient(180deg, var(--accent-light), var(--accent)); }
+  .btn-secondary{
+    background:var(--white); color:var(--navy); box-shadow: 0 5px 0 rgba(45,48,71,0.08); margin-top:10px;
+    display:block; text-align:center; text-decoration:none;
+  }
+  .btn-secondary:active{ box-shadow: 0 1px 0 rgba(45,48,71,0.08); }
+
+  .result-card{
+    background:var(--white); border-radius:28px; padding:30px 22px; text-align:center;
+    box-shadow: 0 10px 0 rgba(45,48,71,0.10); margin-bottom:16px;
+  }
+  .result-emoji{ font-size:3.4rem; margin-bottom:4px; }
+  .result-score{ font-size:2.4rem; font-weight:900; margin:4px 0 2px; }
+  .result-score span{ font-size:1.1rem; color:#8a90ab; font-weight:800; }
+  .result-best{ font-size:0.8rem; color:#8a90ab; font-weight:700; margin:0 0 4px; }
+  .result-msg{ font-size:0.9rem; color:#6b7290; margin-bottom:14px; line-height:1.7; }
+  .result-stars{ font-size:1.5rem; letter-spacing:6px; margin-bottom:8px; }
+
+  footer.note{ text-align:center; font-size:0.66rem; color:#a2a7bd; margin-top:16px; }
+
+  @media (prefers-reduced-motion: reduce){ .mascot-wrap{ animation:none; } * { transition:none !important; } }
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <div class="topbar">
+    <a class="home-link" href="../home.html">← ホーム</a>
+    <div class="streak-badge" id="streakBadge">🔥 <span id="streakValue">0</span> もん れんぞく</div>
+  </div>
+
+  <header>
+    <div class="mascot-wrap">
+      <svg viewBox="0 0 120 120" width="90" height="90" id="mascotSvg">
+        <circle cx="60" cy="60" r="52" fill="#ffd23f"/>
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#2d3047" stroke-width="4"/>
+        <g id="mascot-cheeks">
+          <ellipse cx="30" cy="70" rx="9" ry="6" fill="#ff8c42" opacity="0.6"/>
+          <ellipse cx="90" cy="70" rx="9" ry="6" fill="#ff8c42" opacity="0.6"/>
+        </g>
+        <circle cx="42" cy="52" r="6" fill="#2d3047"/>
+        <circle cx="78" cy="52" r="6" fill="#2d3047"/>
+        <path id="mascot-mouth" d="M 42 76 Q 60 88 78 76" stroke="#2d3047" stroke-width="5" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="chapter-tag">🐰 第2章・ふつう山</div>
+    <h1>√を かんたんに する</h1>
+    <p class="sub">√8 = 2√2 の ように、けいすう を そとに 出そう</p>
+  </header>
+
+  <div class="bubble" id="quizBubble">
+    <span class="name">ルートはかせ：</span> <span id="quizBubbleText">しょうま、さいしょの もんだい だよ！</span>
+  </div>
+
+  <!-- ================= クイズ画面 ================= -->
+  <section class="screen active" id="screen-quiz">
+    <div class="score-pill" id="scorePill">せいかい 0 もん</div>
+    <div class="progress-row" id="progressRow"></div>
+
+    <div class="question-card">
+      <div class="expr-area" id="exprArea"></div>
+      <p class="hint-text">けいすう と なかの数 を「これ いじょう かんたんに できない」かたち で こたえてね</p>
+
+      <div class="answer-row">
+        <input type="number" id="coeffInput" class="num-input" inputmode="numeric" placeholder="けいすう" autocomplete="off">
+        <span class="root-label">√</span>
+        <input type="number" id="radicandInput" class="num-input" inputmode="numeric" placeholder="なかの数" autocomplete="off">
+      </div>
+      <p class="feedback" id="feedback"></p>
+
+      <div class="explain-box" id="explainBox">
+        <div class="ttl">🦉 ルートはかせの かいせつ</div>
+        <div class="step" id="explainStep1"></div>
+        <div class="step" id="explainStep2"></div>
+        <div class="step" id="explainStep3"></div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" id="checkBtn">こたえあわせ</button>
+  </section>
+
+  <!-- ================= けっか画面 ================= -->
+  <section class="screen" id="screen-result">
+    <div class="result-card">
+      <div class="result-emoji" id="resultEmoji">🎉</div>
+      <div class="result-stars" id="resultStars"></div>
+      <div class="result-score"><span id="resultScore">0</span><span> / 10 もん せいかい</span></div>
+      <p class="result-best" id="resultBest">🔥 さいこう れんぞく正解：0 もん</p>
+      <p class="result-msg" id="resultMsg"></p>
+    </div>
+    <button class="btn btn-primary" id="retryBtn">もういちど ちょうせん</button>
+    <a class="btn btn-secondary" href="../home.html">ホームへ もどる</a>
+  </section>
+
+  <footer class="note">もんだいは あそぶたびに ランダム。おなじ もんだい は でにくいよ</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var PLAYER_NAME = "しょうま";
+  var QUESTION_COUNT = 10;
+  var LEVEL = { min: 2, max: 100 };
+
+  var state = { problems: [], index: 0, correctCount: 0, results: [] };
+
+  // ---------- れんぞく正解(ストリーク) ----------
+  var STREAK_KEY = 'shoumaMathStreak';
+  function loadStreak(){
+    try{
+      var raw = localStorage.getItem(STREAK_KEY);
+      if (!raw) return { current: 0, best: 0 };
+      var obj = JSON.parse(raw);
+      return { current: obj.current || 0, best: obj.best || 0 };
+    } catch (e){ return { current: 0, best: 0 }; }
+  }
+  function saveStreak(obj){
+    try{ localStorage.setItem(STREAK_KEY, JSON.stringify(obj)); } catch (e){}
+  }
+  var streakData = loadStreak();
+  var streakBadge = document.getElementById('streakBadge');
+  var streakValueEl = document.getElementById('streakValue');
+  function renderStreak(){ streakValueEl.textContent = streakData.current; }
+  function bumpStreak(isCorrect){
+    if (isCorrect){
+      streakData.current++;
+      if (streakData.current > streakData.best) streakData.best = streakData.current;
+    } else {
+      streakData.current = 0;
+    }
+    saveStreak(streakData);
+    renderStreak();
+    streakBadge.classList.remove('bump', 'lost');
+    void streakBadge.offsetWidth;
+    if (!isCorrect) streakBadge.classList.add('lost');
+    streakBadge.classList.add('bump');
+  }
+  renderStreak();
+
+  function shuffleArray(arr){
+    for (var j = arr.length - 1; j > 0; j--){
+      var k = Math.floor(Math.random() * (j + 1));
+      var tmp = arr[j]; arr[j] = arr[k]; arr[k] = tmp;
+    }
+    return arr;
+  }
+
+  // n を a√b（bはこれ以上かんたんにできない形）に分解する
+  function simplify(n){
+    var coeff = 1, radicand = n;
+    for (var i = 2; i * i <= radicand; i++){
+      while (radicand % (i * i) === 0){ radicand = radicand / (i * i); coeff *= i; }
+    }
+    return { coeff: coeff, radicand: radicand };
+  }
+
+  function buildProblems(){
+    var pool = [];
+    for (var n = LEVEL.min; n <= LEVEL.max; n++){
+      var s = simplify(n);
+      if (s.coeff > 1 && s.radicand > 1) pool.push({ n: n, coeff: s.coeff, radicand: s.radicand });
+    }
+    shuffleArray(pool);
+    return pool.slice(0, QUESTION_COUNT);
+  }
+
+  var screens = {
+    quiz: document.getElementById('screen-quiz'),
+    result: document.getElementById('screen-result')
+  };
+  function showScreen(name){
+    Object.keys(screens).forEach(function(k){ screens[k].classList.toggle('active', k === name); });
+  }
+
+  var mascotSvg = document.getElementById('mascotSvg');
+  var mouth = document.getElementById('mascot-mouth');
+  function setMascot(mood){
+    mascotSvg.classList.remove('mascot-happy');
+    if (mood === 'happy'){ mouth.setAttribute('d', 'M 40 74 Q 60 96 80 74'); mascotSvg.classList.add('mascot-happy'); }
+    else if (mood === 'sad'){ mouth.setAttribute('d', 'M 42 84 Q 60 70 78 84'); }
+    else { mouth.setAttribute('d', 'M 42 76 Q 60 88 78 76'); }
+  }
+
+  var quizBubbleText = document.getElementById('quizBubbleText');
+  var progressRow = document.getElementById('progressRow');
+  var exprArea = document.getElementById('exprArea');
+  var coeffInput = document.getElementById('coeffInput');
+  var radicandInput = document.getElementById('radicandInput');
+  var feedbackEl = document.getElementById('feedback');
+  var checkBtn = document.getElementById('checkBtn');
+  var scorePill = document.getElementById('scorePill');
+  var explainBox = document.getElementById('explainBox');
+  var explainStep1 = document.getElementById('explainStep1');
+  var explainStep2 = document.getElementById('explainStep2');
+  var explainStep3 = document.getElementById('explainStep3');
+
+  var ENCOURAGE_LINES = [
+    PLAYER_NAME + '、つぎの もんだい だよ！',
+    'いいちょうし だ、' + PLAYER_NAME + '！ つぎ いってみよう。',
+    PLAYER_NAME + 'なら、この もんだい も とけるはず！',
+    'その ちょうし！ つぎの もんだい は……？'
+  ];
+
+  function buildProgressDots(){
+    progressRow.innerHTML = '';
+    for (var i = 0; i < state.problems.length; i++){
+      var d = document.createElement('div');
+      d.className = 'dot'; d.textContent = (i + 1);
+      progressRow.appendChild(d);
+    }
+    updateProgressDots();
+  }
+  function updateProgressDots(){
+    var dots = progressRow.children;
+    for (var i = 0; i < dots.length; i++){
+      dots[i].classList.remove('current', 'correct', 'wrong');
+      var res = state.results[i];
+      if (res === 'correct') dots[i].classList.add('correct');
+      else if (res === 'wrong') dots[i].classList.add('wrong');
+      if (i === state.index) dots[i].classList.add('current');
+    }
+  }
+
+  var awaitingNext = false;
+
+  function renderQuestion(){
+    var problem = state.problems[state.index];
+    exprArea.innerHTML = '<span class="sqrt-symbol">√</span><span class="under-line">' + problem.n + '</span>';
+    coeffInput.value = ''; radicandInput.value = '';
+    coeffInput.classList.remove('correct', 'wrong');
+    radicandInput.classList.remove('correct', 'wrong');
+    coeffInput.disabled = false; radicandInput.disabled = false;
+    feedbackEl.textContent = ''; feedbackEl.className = 'feedback';
+    explainBox.classList.remove('show');
+    checkBtn.textContent = 'こたえあわせ'; checkBtn.disabled = false;
+    setMascot('neutral');
+    if (state.index > 0) quizBubbleText.textContent = ENCOURAGE_LINES[state.index % ENCOURAGE_LINES.length];
+    scorePill.textContent = 'せいかい ' + state.correctCount + ' もん';
+    updateProgressDots();
+    setTimeout(function(){ coeffInput.focus(); }, 50);
+  }
+
+  function showExplanation(problem){
+    var n = problem.n, coeff = problem.coeff, radicand = problem.radicand;
+    explainStep1.innerHTML = PLAYER_NAME + '、まず ' + n + ' を そいんすう分解 しよう。<span class="num">' + coeff + '</span> × <span class="num">' + coeff + '</span> × <span class="num">' + radicand + '</span> = ' + n + ' のように、おなじ 数が 2つ そろう ぶぶん が あるね。';
+    explainStep2.innerHTML = 'おなじ 数が 2つ そろうと、そとに 出せる きまり が あるよ：<br>√' + n + ' = √(' + coeff + '×' + coeff + '×' + radicand + ') = <span class="num">' + coeff + '√' + radicand + '</span>';
+    explainStep3.textContent = radicand + ' には もう 2つそろう 数が ないから、これ いじょう かんたんに できないよ。だから こたえは けいすう=' + coeff + '、なかの数=' + radicand + ' だよ。';
+  }
+
+  function checkAnswer(){
+    if (awaitingNext){ goNext(); return; }
+    var problem = state.problems[state.index];
+    var rawC = coeffInput.value.trim();
+    var rawR = radicandInput.value.trim();
+    if (rawC === '' || rawR === ''){
+      feedbackEl.textContent = PLAYER_NAME + '、りょうほう の らんに すうじ を いれてね';
+      feedbackEl.className = 'feedback wrong';
+      return;
+    }
+    var valC = Number(rawC), valR = Number(rawR);
+    var isCorrect = (valC === problem.coeff && valR === problem.radicand);
+
+    state.results[state.index] = isCorrect ? 'correct' : 'wrong';
+    if (isCorrect) state.correctCount++;
+    bumpStreak(isCorrect);
+
+    coeffInput.disabled = true; radicandInput.disabled = true;
+    coeffInput.classList.add(isCorrect ? 'correct' : 'wrong');
+    radicandInput.classList.add(isCorrect ? 'correct' : 'wrong');
+
+    if (isCorrect){
+      feedbackEl.textContent = 'せいかい！ 🎉';
+      feedbackEl.className = 'feedback correct';
+      quizBubbleText.textContent = 'やったね、' + PLAYER_NAME + '！ さすが だ！';
+    } else {
+      feedbackEl.textContent = 'おしい！ せいかいは ' + (problem.coeff === 1 ? '' : problem.coeff) + '√' + problem.radicand + ' だよ。';
+      feedbackEl.className = 'feedback wrong';
+      quizBubbleText.textContent = PLAYER_NAME + '、だいじょうぶ。いっしょに かいせつ を みてみよう。';
+      showExplanation(problem);
+      explainBox.classList.add('show');
+    }
+
+    setMascot(isCorrect ? 'happy' : 'sad');
+    scorePill.textContent = 'せいかい ' + state.correctCount + ' もん';
+    updateProgressDots();
+
+    var isLast = (state.index === state.problems.length - 1);
+    checkBtn.textContent = isLast ? 'けっかをみる' : 'つぎの もんだいへ';
+    awaitingNext = true;
+  }
+
+  function goNext(){
+    awaitingNext = false;
+    if (state.index === state.problems.length - 1) showResult();
+    else { state.index++; renderQuestion(); }
+  }
+
+  checkBtn.addEventListener('click', checkAnswer);
+  [coeffInput, radicandInput].forEach(function(inp){
+    inp.addEventListener('keydown', function(e){ if (e.key === 'Enter'){ e.preventDefault(); checkAnswer(); } });
+  });
+
+  var resultScoreEl = document.getElementById('resultScore');
+  var resultMsgEl = document.getElementById('resultMsg');
+  var resultEmojiEl = document.getElementById('resultEmoji');
+  var resultStarsEl = document.getElementById('resultStars');
+  var resultBestEl = document.getElementById('resultBest');
+
+  function showResult(){
+    resultScoreEl.textContent = state.correctCount;
+    var pct = state.correctCount / state.problems.length;
+    var stars = Math.max(1, Math.round(pct * 5));
+    resultStarsEl.textContent = '⭐'.repeat(stars);
+    resultBestEl.textContent = '🔥 さいこう れんぞく正解：' + streakData.best + ' もん';
+
+    if (pct === 1){
+      resultEmojiEl.textContent = '🏆';
+      resultMsgEl.textContent = PLAYER_NAME + '、ぜんもん せいかい だ！ ルートはかせ も びっくり だよ。つぎの 章 に すすもう！';
+    } else if (pct >= 0.7){
+      resultEmojiEl.textContent = '🎉';
+      resultMsgEl.textContent = 'よくがんばったね、' + PLAYER_NAME + '！ かいせつ を みなおして、もういちど チャレンジ してみよう。';
+    } else if (pct >= 0.4){
+      resultEmojiEl.textContent = '🙂';
+      resultMsgEl.textContent = PLAYER_NAME + '、もうすこし！ かいせつ を よく よんで、もう一度 やってみよう。';
+    } else {
+      resultEmojiEl.textContent = '💪';
+      resultMsgEl.textContent = 'だいじょうぶ、' + PLAYER_NAME + '！ ルートはかせ が いつでも いっしょ だよ。もういちど チャレンジ しよう！';
+    }
+    showScreen('result');
+  }
+
+  document.getElementById('retryBtn').addEventListener('click', startQuiz);
+
+  function startQuiz(){
+    state.problems = buildProblems();
+    state.index = 0; state.correctCount = 0;
+    state.results = new Array(state.problems.length).fill(null);
+    buildProgressDots();
+    setMascot('neutral');
+    quizBubbleText.textContent = PLAYER_NAME + '、ここからは √を「a√b」の かたち に かんたんに する れんしゅう だ！';
+    showScreen('quiz');
+    renderQuestion();
+  }
+
+  startQuiz();
+})();
+</script>
+</body>
+</html>
